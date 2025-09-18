@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('directors', function (Blueprint $table) {
             $table->id();
+            $table->integer('tmdb_director_id')->unique();
             $table->string('name');
             $table->string('photo_path')->nullable();
             $table->timestamps();

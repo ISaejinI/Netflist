@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Director extends Model
 {
-    protected $fillable = ['name', 'photo_path'];
+    protected $fillable = ['tmdb_director_id', 'name', 'photo_path'];
 
     public function movies()
     {

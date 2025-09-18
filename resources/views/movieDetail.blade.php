@@ -22,6 +22,16 @@
                 @endforeach
             </ul>
 
+            <h3>Réalisateurs :</h3>
+            <ul>
+                @foreach ($movie->directors as $director)
+                    <li>
+                        <img src="{{ Storage::url($director->photo_path) }}" alt="{{ $director->name }}" style="width: 50px">
+                        {{ $director->name }}
+                    </li>
+                @endforeach
+            </ul>
+
             <form action="{{ route('watched') }}" method="post">
                 @csrf
                 <input type="hidden" name="movie_id" value="{{ $movie->id }}">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actor;
+use App\Models\Director;
 use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Http\Request;
@@ -89,7 +90,7 @@ class MovieController extends Controller
 
             $actors = $cast->cast;
             if (isset($actors)) {
-                foreach (array_slice($actors, 0, 8) as $actor) {
+                foreach (array_slice($actors, 0, 5) as $actor) {
                     $actorProfileUrl = 'https://image.tmdb.org/t/p/w500'.$actor->profile_path;
                     $contents = file_get_contents($actorProfileUrl);
                     $actorProfileName = $actor->id.'profile.jpg';
@@ -100,6 +101,25 @@ class MovieController extends Controller
                         ['name' => $actor->name, 'avatar_path' => $actor_profile_path]
                     );
                     $newMovie->actors()->attach($newActor->id, ['character' => $actor->character]);
+                }
+            }
+
+            $directors = $cast->crew;
+            if (isset($directors)) {
+                foreach ($directors as $director) {
+                    if ($director->known_for_department == 'Directing') {
+                        $directorProfileUrl = 'https://image.tmdb.org/t/p/w500'.$director->profile_path;
+                        $contents = file_get_contents($directorProfileUrl);
+                        $directorProfileName = $director->id.'profile.jpg';
+                        Storage::disk('public')->put('directors/'.$directorProfileName, $contents);
+                        $director_profile_path = 'directors/'.$directorProfileName;
+                        $newDirector = Director::firstOrCreate(
+                            ['tmdb_director_id' => $director->id],
+                            ['name' => $director->name, 'photo_path' => $director_profile_path]
+                        );
+                        $newMovie->directors()->attach($newDirector->id);
+                        break;
+                    }
                 }
             }
 
