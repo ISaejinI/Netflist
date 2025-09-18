@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\SinglemovieController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'getHomeDatas'])->name('home');
@@ -15,3 +16,5 @@ Route::controller(MovieController::class)->group(function() {
     Route::delete('/deleteMovie', 'deleteMovie')->name('deletemovie');
     Route::get('/search', 'searchMovie')->name('search');
 });
+
+Route::get('/movie/{id}', [SinglemovieController::class, 'movieDetail'])->name('moviedetail');

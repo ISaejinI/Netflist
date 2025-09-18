@@ -23,6 +23,6 @@ class HomeController extends Controller
         $savedMovies = $savedMovies->with('genres')->get();
         $allGenres = Genre::withCount('movies')->get();
 
-        return view('home', ['savedMovies' => $savedMovies, 'allGenres' => $allGenres, 'selectedGenre' => $selectedGenre]);
+        return view('home', ['savedMovies' => $savedMovies, 'allGenres' => $allGenres, isset($selectedGenre) ? "'selectedGenre' => $selectedGenre" : '']);
     }
 }

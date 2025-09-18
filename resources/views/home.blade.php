@@ -2,17 +2,11 @@
 @section('content')
     <div class="container" style="position: relative">
         <h1>Titre de la page</h1>
-
-        @session('success')
-            <span class="alert"><i class='bxr  bx-check-circle'></i>{{ session('success') }}</span>
-        @endsession
-        @session('error')
-            <span class="alert"><i class='bxr  bx-check-circle'></i>{{ session('error') }}</span>
-        @endsession
-
         <div class="watchlistHeader">
-            <h2>Votre <span class="highlight">Watchlist</span></h2> @isset($selectedGenre) 
-            <span>Filtrée par genre : {{ $selectedGenre }}</span> @endisset
+            <h2>Votre <span class="highlight">Watchlist</span></h2>
+            @isset($selectedGenre) 
+                <span>Filtrée par genre : {{ $selectedGenre }}</span> 
+            @endisset
         </div>
         <form action="{{ route('home') }}" method="get">
             @csrf
@@ -38,6 +32,8 @@
                         <input type="hidden" name="movie_id" value="{{ $movie->id }}">
                         <input type="submit" value="Marquer le film comme vu">
                     </form>
+
+                    <a href="{{ route('moviedetail', $movie->id) }}">Voir les détails du film</a>
                 </div>
             @endforeach
         </div>
