@@ -1673,3 +1673,328 @@ header {
     font-size: 1.2rem;
   }
 }
+
+/* ------POPULAR PAGE - NOUVELLES CLASSES------ */
+.popular-page {
+  min-height: 100vh;
+  background: var(--noir);
+  padding: 2rem 0;
+}
+
+/* ------POPULAR HERO SECTION------ */
+.popular-hero {
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #2d2d2d 100%);
+  border-radius: var(--radius-l);
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.popular-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23E50914" stop-opacity="0.1"/><stop offset="100%" stop-color="%23E50914" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23a)"/><circle cx="800" cy="300" r="200" fill="url(%23a)"/><circle cx="500" cy="700" r="400" fill="url(%23a)"/></svg>') no-repeat center center;
+  background-size: cover;
+  opacity: 0.3;
+}
+
+.popular-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.popular-hero-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.popular-hero-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.4;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ------POPULAR MOVIES SECTION------ */
+.popular-movies-section {
+  padding: 2rem 0;
+}
+
+.popular-movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.popular-movie-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  transition: all var(--duration) var(--a-type);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.popular-movie-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(229, 9, 20, 0.3);
+}
+
+.popular-movie-poster {
+  position: relative;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+}
+
+.popular-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration) var(--a-type);
+}
+
+.popular-movie-card:hover .popular-poster-img {
+  transform: scale(1.05);
+}
+
+.popular-movie-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
+  opacity: 0;
+  transition: opacity var(--duration) var(--a-type);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.popular-movie-card:hover .popular-movie-overlay {
+  opacity: 1;
+}
+
+.popular-movie-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.popular-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all var(--duration) var(--a-type);
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.popular-action-btn.popular-primary {
+  background: var(--rouge);
+  color: var(--blanc);
+}
+
+.popular-action-btn.popular-primary:hover {
+  background: #f40612;
+  transform: scale(1.1);
+}
+
+.popular-action-btn.popular-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--blanc);
+  backdrop-filter: blur(10px);
+}
+
+.popular-action-btn.popular-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.popular-action-form {
+  display: inline;
+}
+
+.popular-movie-info {
+  padding: 1.5rem;
+}
+
+.popular-movie-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: var(--blanc);
+  line-height: 1.3;
+}
+
+.popular-movie-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.popular-release-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.popular-release-date i {
+  color: var(--rouge);
+}
+
+.popular-movie-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffd700;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.popular-movie-rating i {
+  font-size: 1rem;
+}
+
+.popular-movie-overview {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ------POPULAR PAGINATION------ */
+.popular-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  padding: 2rem 0;
+}
+
+.popular-pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem 2rem;
+  border-radius: var(--radius-l);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popular-pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-s);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--blanc);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all var(--duration) var(--a-type);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.popular-pagination-btn:hover {
+  background: rgba(229, 9, 20, 0.2);
+  border-color: var(--rouge);
+  color: var(--rouge);
+  transform: translateY(-2px);
+}
+
+.popular-pagination-btn.active {
+  background: var(--rouge);
+  border-color: var(--rouge);
+  color: var(--blanc);
+}
+
+.popular-pagination-btn.active:hover {
+  background: #f40612;
+  color: var(--blanc);
+}
+
+/* ------RESPONSIVE POPULAR------ */
+@media (max-width: 768px) {
+  .popular-hero {
+    padding: 2rem 0;
+  }
+  
+  .popular-movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .popular-movie-info {
+    padding: 1rem;
+  }
+  
+  .popular-movie-title {
+    font-size: 1.1rem;
+  }
+  
+  .popular-movie-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .popular-pagination-container {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .popular-pagination-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .popular-movies-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .popular-hero-content {
+    padding: 0 1rem;
+  }
+  
+  .popular-pagination-container {
+    padding: 0.5rem;
+  }
+  
+  .popular-pagination-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+}
