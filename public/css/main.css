@@ -9,8 +9,8 @@
   --duration: .3s;
   --a-type: ease-in-out;
   --bez: cubic-bezier(0, 0, 0.43, 1.49);
-  --height: 5rem;
-  --btn-width: 6rem;
+  --height: 3rem;
+  --btn-width: 3rem;
 }
 
 html {
@@ -79,7 +79,7 @@ header {
 
   #searchForm {
     position: relative;
-    width: 30rem;
+    width: 450px;
     background: var(--rouge);
     border-radius: var(--radius-s);
   }
@@ -90,7 +90,7 @@ header {
     font-family: var(--font-fam);
     border: 0;
     color: var(--noir);
-    font-size: 1.8rem;
+    font-size: 24px;
   }
 
   input[type="search"] {
@@ -115,6 +115,11 @@ header {
     font-weight: bold;
     background: var(--color-brand);
     border-radius: 0 var(--rad) var(--rad) 0;
+
+    i {
+      font-weight: 600;
+      color: var(--blanc);
+    }
   }
 
   input:not(:placeholder-shown) {
