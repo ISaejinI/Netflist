@@ -28,18 +28,20 @@
 
         @if ($type === 'popular' && $movies->total_pages > 1)
             <div class="pagination">
+                <a href="{{ route('popularmovies', ['page' => 1]) }}"><i class='bxr  bx-chevrons-left'></i></a>
                 @php
                     $currentPage = request()->route('page', 1);
                 @endphp
                 @if ($currentPage < 3)
-                    @for ($i = 1; $i <= 5; $i++)
+                    @for ($i = 1; $i <= 10; $i++)
                         <a href="{{ route('popularmovies', ['page' => $i]) }}">{{ $i }}</a>
                     @endfor
                 @else
-                    @for ($i = max(1, $currentPage - 2); $i <= min($movies->total_pages, $currentPage + 2); $i++)
+                    @for ($i = max(1, $currentPage - 5); $i <= min($movies->total_pages, $currentPage + 5); $i++)
                         <a href="{{ route('popularmovies', ['page' => $i]) }}">{{ $i }}</a>
                     @endfor
                 @endif
+                <a href="{{ route('popularmovies', ['page' => $movies->total_pages - 500]) }}"><i class='bxr  bx-chevrons-right'></i></a>
             </div>
         @endif
     </div>

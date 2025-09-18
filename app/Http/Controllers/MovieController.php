@@ -13,10 +13,15 @@ class MovieController extends Controller
     {
         $currentPage = $request->route('page', 1);
         if (is_numeric($currentPage) && $currentPage > 0) {
-            $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&page=".$currentPage);
+            $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&include_adult=false&page=".$currentPage);
+            if (!isset($popularMovies->results) || count($popularMovies->results) === 0) {
+                return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
+            }
             return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films populaires <span class="highlight">populaires</span>', 'type' => 'popular']);
         }
-        // dd($popularMovies);
+        else {
+            return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
+        }
     }
 
     public function getCurlDatas($url)
