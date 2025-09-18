@@ -1,41 +1,118 @@
 @extends('bases.base')
 @section('content')
-    <div class="container">
-        <h1>{{ $movie->title }}</h1>
-        <div class="movieDetailBox">
-            <p>{{ $movie->description }}</p>
-            <p>Date de sortie : {{ $movie->release_date }}</p>
-            <p>Note : {{ $movie->rating }}/10</p>
-            <p>Pays d'origine : {{ $movie->origin_country }}</p>
-            
-            <img src="{{ Storage::url($movie->poster_path) }}" alt="{{ $movie->title }}" style="width: 100px">
-            @foreach ($movie->genres as $genre)
-                <span>{{ $genre->name }}</span>
-            @endforeach
-            <h3>Acteurs :</h3>
-            <ul>
-                @foreach ($movie->actors as $actor)
-                    <li>
-                        <img src="{{ Storage::url($actor->avatar_path) }}" alt="{{ $actor->name }}" style="width: 50px">
-                        {{ $actor->name }} - Rôle : {{ $actor->pivot->character }}
-                    </li>
-                @endforeach
-            </ul>
+    <div class="movie-detail-page container">
+        <div class="movie-detail-layout">
+            <div class="movie-poster-section">
+                <div class="poster-container">
+                    <img src="{{ Storage::url($movie->poster_path) }}" alt="{{ $movie->title }}" class="movie-poster-img">
+                    <div class="poster-overlay">
+                        <div class="rating-badge">
+                            <i class='bx bx-star'></i>
+                            <span>{{ $movie->rating }}/10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <h3>Réalisateurs :</h3>
-            <ul>
-                @foreach ($movie->directors as $director)
-                    <li>
-                        <img src="{{ Storage::url($director->photo_path) }}" alt="{{ $director->name }}" style="width: 50px">
-                        {{ $director->name }}
-                    </li>
-                @endforeach
-            </ul>
+            <!-- Colonne de droite - Informations du film -->
+            <div class="movie-info-section">
+                <!-- En-tête avec titre et métadonnées -->
+                <div class="movie-header">
+                    <div class="title-row">
+                        <h1 class="movie-title">{{ $movie->title }}</h1>
+                        <span class="release-year">{{ date('Y', strtotime($movie->release_date)) }}</span>
+                    </div>
 
-            <form action="{{ route('watched') }}" method="post">
-                @csrf
-                <input type="hidden" name="movie_id" value="{{ $movie->id }}">
-                <input type="submit" value="Marquer le film comme vu">
-            </form>
+                    <div class="genre-tags">
+                        @foreach ($movie->genres as $genre)
+                            <span class="genre-tag">{{ $genre->name }}</span>
+                        @endforeach
+                    </div>
+
+                    <div class="rating-section">
+                        <div class="stars">
+                            @for($i = 1; $i <= 1; $i++)
+                                <i class='bx bx-star {{ $i <= ($movie->rating / 2) ? 'style="fill:var(--blanc)"' : '' }}'></i>
+                            @endfor
+                        </div>
+                        <span class="rating-score">{{ $movie->rating }}/10</span>
+                    </div>
+                </div>
+
+                <!-- Section Summary -->
+                <div class="summary-section">
+                    <h2 class="section-title">SUMMARY</h2>
+                    <p class="movie-description">{{ $movie->description }}</p>
+                    <div class="additional-info">
+                        <div class="info-item">
+                            <strong>Pays d'origine :</strong> {{ $movie->origin_country }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Date de sortie :</strong> {{ date('d/m/Y', strtotime($movie->release_date)) }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Cast -->
+                @if($movie->actors->count() > 0)
+                <div class="cast-section">
+                    <h2 class="section-title">CAST</h2>
+                    <div class="cast-grid">
+                        @foreach ($movie->actors->take(4) as $actor)
+                            <div class="cast-member">
+                                <div class="cast-avatar">
+                                    <img src="{{ Storage::url($actor->avatar_path) }}" alt="{{ $actor->name }}">
+                                </div>
+                                <span class="cast-name">{{ $actor->name }}</span>
+                                @if($actor->pivot->character)
+                                    <span class="cast-character">{{ $actor->pivot->character }}</span>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                <!-- Section Directors -->
+                @if($movie->directors->count() > 0)
+                <div class="directors-section">
+                    <h2 class="section-title">DIRECTORS</h2>
+                    <div class="directors-grid">
+                        @foreach ($movie->directors as $director)
+                            <div class="director-member">
+                                <div class="director-avatar">
+                                    <img src="{{ Storage::url($director->photo_path) }}" alt="{{ $director->name }}">
+                                </div>
+                                <span class="director-name">{{ $director->name }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                <!-- Boutons d'action -->
+                <div class="action-buttons">
+                    <form action="{{ route('watched') }}" method="post" class="action-form">
+                        @csrf
+                        <input type="hidden" name="movie_id" value="{{ $movie->id }}">
+                        <button type="submit" class="btn-watch-trailer">
+                            <i class='bx bx-play'></i>
+                            WATCH TRAILER
+                        </button>
+                    </form>
+                    <div class="secondary-actions">
+                        <button class="action-btn" title="Partager">
+                            <i class='bx bx-share'></i>
+                        </button>
+                        <button class="action-btn" title="Ajouter à la liste">
+                            <i class='bx bx-bookmark'></i>
+                        </button>
+                        <button class="action-btn" title="Télécharger">
+                            <i class='bx bx-download'></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

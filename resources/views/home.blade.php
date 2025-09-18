@@ -23,7 +23,7 @@
     <section id="watchlist" class="watchlist-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Votre <span class="highlight">Watchlist</span></h2>
+                <h2 class="section-title-home">Votre <span class="highlight">Watchlist</span></h2>
                 @isset($selectedGenre) 
                     <div class="filter-indicator">
                         <i class='bx bx-filter'></i>
@@ -66,7 +66,7 @@
                                 <img src="{{ Storage::url($movie->poster_path) }}" alt="{{ $movie->title }}" loading="lazy">
                                 <div class="movie-overlay">
                                     <div class="movie-actions">
-                                        <a href="{{ route('moviedetail', $movie->id) }}" class="action-btn primary">
+                                        <a href="{{ route('moviedetail', $movie->id) }}" class="action-btn primary" title="Voir le film">
                                             <i class='bx bx-play'></i>
                                         </a>
                                         <form action="{{ route('watched') }}" method="post" class="action-form">
@@ -80,10 +80,10 @@
                                 </div>
                             </div>
                             <div class="movie-info">
-                                <h3 class="movie-title">{{ $movie->title }}</h3>
+                                <h3 class="movie-title-home">{{ $movie->title }}</h3>
                                 <div class="movie-genres">
                                     @foreach ($movie->genres as $genre)
-                                        <span class="genre-tag">{{ $genre->name }}</span>
+                                        <span class="genre-tag-home">{{ $genre->name }}</span>
                                     @endforeach
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                     </div>
                     <h3>Votre watchlist est vide</h3>
                     <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
-                    <a href="{{ route('index') }}" class="btn-primary">
+                    <a href="{{ route('popular') }}" class="btn-primary">
                         <i class='bx bx-plus'></i>
                         Découvrir des films
                     </a>
