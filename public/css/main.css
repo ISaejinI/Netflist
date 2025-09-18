@@ -1351,3 +1351,325 @@ header {
     padding: 0 1rem;
   }
 }
+
+/* ------RATED PAGE - NOUVELLES CLASSES------ */
+.rated-page {
+  min-height: 100vh;
+  background: var(--noir);
+  padding: 2rem 0;
+}
+
+/* ------RATED HERO SECTION------ */
+.rated-hero {
+  text-align: center;
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #2d2d2d 100%);
+  border-radius: var(--radius-l);
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.rated-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23E50914" stop-opacity="0.1"/><stop offset="100%" stop-color="%23E50914" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23a)"/><circle cx="800" cy="300" r="200" fill="url(%23a)"/><circle cx="500" cy="700" r="400" fill="url(%23a)"/></svg>') no-repeat center center;
+  background-size: cover;
+  opacity: 0.3;
+}
+
+.rated-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.rated-hero-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.rated-hero-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.4;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ------RATED MOVIES SECTION------ */
+.rated-movies-section {
+  padding: 2rem 0;
+}
+
+.rated-movies-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.rated-movie-card {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-l);
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all var(--duration) var(--a-type);
+  position: relative;
+}
+
+.rated-movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border-color: rgba(229, 9, 20, 0.3);
+}
+
+.rated-rank-badge {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 60px;
+  height: 60px;
+  background: var(--rouge);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+  z-index: 2;
+}
+
+.rated-rank-number {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--blanc);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.rated-movie-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  margin-left: 2rem;
+}
+
+.rated-movie-poster {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.rated-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration) var(--a-type);
+}
+
+.rated-movie-card:hover .rated-poster-img {
+  transform: scale(1.05);
+}
+
+.rated-movie-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
+  opacity: 0;
+  transition: opacity var(--duration) var(--a-type);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.rated-movie-card:hover .rated-movie-overlay {
+  opacity: 1;
+}
+
+.rated-movie-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.rated-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all var(--duration) var(--a-type);
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.rated-action-btn.rated-primary {
+  background: var(--rouge);
+  color: var(--blanc);
+}
+
+.rated-action-btn.rated-primary:hover {
+  background: #f40612;
+  transform: scale(1.1);
+}
+
+.rated-action-btn.rated-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--blanc);
+  backdrop-filter: blur(10px);
+}
+
+.rated-action-btn.rated-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.rated-action-form {
+  display: inline;
+}
+
+.rated-movie-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rated-movie-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--blanc);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.rated-movie-meta {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.rated-release-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.rated-release-date i {
+  color: var(--rouge);
+}
+
+.rated-movie-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffd700;
+  font-weight: 600;
+}
+
+.rated-movie-rating i {
+  font-size: 1.2rem;
+}
+
+.rated-movie-overview {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ------RESPONSIVE RATED------ */
+@media (max-width: 1024px) {
+  .rated-movie-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  
+  .rated-movie-poster {
+    width: 150px;
+    height: 225px;
+  }
+  
+  .rated-movie-card {
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .rated-hero {
+    padding: 2rem 0;
+  }
+  
+  .rated-movie-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .rated-movie-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .rated-movie-poster {
+    width: 100%;
+    height: 250px;
+    align-self: center;
+  }
+  
+  .rated-movie-title {
+    font-size: 1.5rem;
+  }
+  
+  .rated-movie-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rated-movie-poster {
+    height: 200px;
+  }
+  
+  .rated-movie-title {
+    font-size: 1.3rem;
+  }
+  
+  .rated-rank-badge {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .rated-rank-number {
+    font-size: 1.2rem;
+  }
+}
