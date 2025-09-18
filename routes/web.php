@@ -6,18 +6,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'getHomeDatas'])->name('home');
 
-Route::get('/popular', [MovieController::class, 'getPopular'])->name('popularmovies');
+// Route::get('/popularMovies', [MovieController::class, 'getPopular'])->name('popularmovies');
 // Route::get('/popular/{page}', [App\Http\Controllers\MovieController::class, 'getPopular'])->name('popularmovies');
 
-//Ajouter une route pour ajouter un film à la DB
-Route::post('/storeMovie', [MovieController::class, 'storeMovie'])->name('storemovie');
+// Route::post('/storeMovie', [MovieController::class, 'storeMovie'])->name('storemovie');
 
-// Faire un groupe avec les deux routes de MoviesController
+// Route::post('/markAsWatched', [MovieController::class, 'markAsWatched'])->name('watched');
 
-Route::post('/markAsWatched', [MovieController::class, 'markAsWatched'])->name('watched');
+// Route::get('/myWatchlist', [MovieController::class, 'index'])->name('savedmovies');
 
-Route::get('/index', [MovieController::class, 'index'])->name('savedmovies');
+// Route::delete('/deleteMovie', [MovieController::class, 'deleteMovie'])->name('deletemovie');
 
-Route::delete('/deleteMovie', [MovieController::class, 'deleteMovie'])->name('deletemovie');
+// Route::get('/search', [MovieController::class, 'searchMovie'])->name('search');
 
-Route::get('/search', [MovieController::class, 'searchMovie'])->name('search');
+
+Route::controller(MovieController::class)->group(function() {
+    Route::get('/popularMovies', 'getPopular')->name('popularmovies');
+    Route::post('/storeMovie', 'storeMovie')->name('storemovie');
+    Route::post('/markAsWatched', 'markAsWatched')->name('watched');
+    Route::get('/myWatchlist', 'index')->name('savedmovies');
+    Route::delete('/deleteMovie', 'deleteMovie')->name('deletemovie');
+    Route::get('/search', 'searchMovie')->name('search');
+});
