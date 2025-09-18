@@ -97,7 +97,7 @@
                     </div>
                     <h3>Votre watchlist est vide</h3>
                     <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
-                    <a href="{{ route('popular') }}" class="btn-primary">
+                    <a href="{{ route('popularmovies') }}" class="btn-primary">
                         <i class='bx bx-plus'></i>
                         Découvrir des films
                     </a>
