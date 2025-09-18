@@ -1,0 +1,132 @@
+/* ------GLOBAL------ */
+html {
+  --rouge: #E50914;
+  --noir: #141414;
+  --blanc: #fff;
+
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--blanc);
+  background-color: var(--noir);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.highlight {
+  color: var(--rouge);
+}
+
+.container {
+  width: 1140px;
+  margin: 0 auto;
+}
+
+header {
+  padding: 16px 0;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ------HEADER------ */
+#logo {
+  width: 200px;
+}
+
+#navHeader {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  a:hover {
+    color: var(--rouge);
+  }
+
+  #register {
+    padding: 8px 16px;
+    border: 2px solid var(--rouge);
+    transition: all .3s ease-in-out;
+  }
+
+  #register:hover {
+    background-color: var(--rouge);
+    color: var(--blanc);
+  }
+}
+
+/* ------POPULAR MOVIES------ */
+.moviesContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.cardContainer {
+  position: relative;
+  background: #000;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  transition: all .3s ease-in-out;
+
+  img {
+    width: 100%;
+    aspect-ratio: 6/9;
+    transition: all .3s ease-in-out;
+  }
+}
+
+.movieInfo {
+  position: absolute;
+  bottom: -100%;
+  transition: all .3s ease-in-out;
+  height: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+.cardContainer:hover {
+  .movieInfo {
+    bottom: 0;
+    background-color: #000a;
+  }
+
+  img {
+    transform: scale(1.1);
+  }
+}
+
+#saveMovie {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+/* ------ALERT------ */
+.alert {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  background-color: yellowgreen;
+  color: green;
+}

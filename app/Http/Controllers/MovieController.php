@@ -1,0 +1,116 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Genre;
+use App\Models\Movie;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class MovieController extends Controller
+{
+    public function getPopular()
+    {
+        $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&page=1");
+
+        // dd($popularMovies);
+
+        return view('movies.popular', ['movies' => $popularMovies]);
+    }
+
+    // public function getSearch(Request $request) {
+    //     $query = $request->inpput('search');
+    //     $movies_datas = $this->getCurlDatas('/search/movie?query')
+    // }
+
+    public function getCurlDatas($url)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api.themoviedb.org/3/".$url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => [
+                "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYjZiOTA0ODUwOTAwMmI0OGFhNjE3OGFmOTg3OTdmOCIsIm5iZiI6MTUyNjg5MjY4Mi4xMTksInN1YiI6IjViMDI4ODhhMGUwYTI2MjNlMzAxM2NiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.U__GCj6NGxqJW_3jGpP29dEbdjeLh0eJ7a5CCmAJzlk",
+                "accept: application/json"
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            return json_decode($response);
+        }
+    }
+
+    public function storeMovie(Request $request) {
+        if ($request->has('movie_id') && $request->input('movie_id') > 0) {
+            $movie = $this->getCurlDatas('movie/'.$request->input('movie_id').'?language=fr-FR');
+            // dd($movie);
+            $posterUrl = 'https://image.tmdb.org/t/p/w500'.$movie->poster_path;
+            $contents = file_get_contents($posterUrl);
+            $name = $request->input('movie_id').'poster.jpg';
+            Storage::disk('public')->put('posters/'.$name, $contents);
+            $path = 'posters/'.$name;
+
+            $newMovie = Movie::firstOrCreate(
+                ['movie_id' => $request->input('movie_id')], 
+                ['title' => $movie->title, 'poster_path' => $path]
+            );
+
+            if (isset($movie->genres)) {
+                foreach ($movie->genres as $genre) {
+                    $newGenre = Genre::firstOrCreate(
+                        ['id_genre_tmdb' => $genre->id],
+                        ['name' => $genre->name]
+                    );
+                    $newMovie->genres()->attach($newGenre->id);
+                }
+            }
+        }
+        return redirect()->route('popularmovies')->with('success', 'Film ajouté');
+    }
+
+    public function markAsWatched(Request $request) {
+        if ($request->has('movie_id') && $request->input('movie_id') > 0) {
+            $movie = Movie::find($request->input('movie_id'));
+            if ($movie) {
+                $movie->watched = true;
+                $movie->save();
+                return redirect()->route('home')->with('success', 'Film marqué comme vu');
+            } else {
+                return redirect()->route('home')->with('error', 'Film non trouvé');
+            }
+        }
+    }
+
+    public function deleteMovie (Request $request) {
+        if ($request->has('movie_id') && $request->input('movie_id') > 0) {
+            $movie = Movie::find($request->input('movie_id'));
+            if ($movie) {
+                // Supprimer l'affiche du stockage
+                if ($movie->poster_path && Storage::disk('public')->exists($movie->poster_path)) {
+                    Storage::disk('public')->delete($movie->poster_path);
+                }
+                $movie->delete();
+                return redirect()->route('savedmovies')->with('success', 'Film supprimé');
+            } else {
+                return redirect()->route('savedmovies')->with('error', 'Film non trouvé');
+            }
+        }
+    }
+
+    public function index() {
+        $savedMovies = Movie::all()->load('genres');
+        return view('index', ['savedMovies' => $savedMovies]);
+    }
+}
