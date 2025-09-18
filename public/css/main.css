@@ -1,10 +1,20 @@
 /* ------GLOBAL------ */
-html {
+:root {
   --rouge: #E50914;
   --noir: #141414;
   --blanc: #fff;
+  --font-fam: "Inter", sans-serif;
+  --radius-l: 18px;
+  --radius-s: 8px;
+  --duration: .3s;
+  --a-type: ease-in-out;
+  --bez: cubic-bezier(0, 0, 0.43, 1.49);
+  --height: 5rem;
+  --btn-width: 6rem;
+}
 
-  font-family: "Inter", sans-serif;
+html {
+  font-family: var(--font-fam);
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -53,12 +63,77 @@ header {
   #register {
     padding: 8px 16px;
     border: 2px solid var(--rouge);
-    transition: all .3s ease-in-out;
+    transition: all var(--duration) var(--a-type);
   }
 
   #register:hover {
     background-color: var(--rouge);
     color: var(--blanc);
+  }
+}
+
+/* ------SEARCH BAR------ */
+#info-container {
+  position: relative;
+  padding: 24px 0;
+
+  #searchForm {
+    position: relative;
+    width: 30rem;
+    background: var(--rouge);
+    border-radius: var(--radius-s);
+  }
+
+  input,
+  button {
+    height: var(--height);
+    font-family: var(--font-fam);
+    border: 0;
+    color: var(--noir);
+    font-size: 1.8rem;
+  }
+
+  input[type="search"] {
+    outline: 0;
+    width: 100%;
+    background: var(--blanc);
+    padding: 0 1.6rem;
+    border-radius: var(--radius-s);
+    appearance: none;
+    transition: all var(--duration) var(--bez);
+    transition-property: width, border-radius;
+    z-index: 1;
+    position: relative;
+  }
+
+  button {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--btn-width);
+    font-weight: bold;
+    background: var(--color-brand);
+    border-radius: 0 var(--rad) var(--rad) 0;
+  }
+
+  input:not(:placeholder-shown) {
+    border-radius: var(--rad) 0 0 var(--rad);
+    width: calc(100% - var(--btn-width));
+
+    +button {
+      display: block;
+    }
+  }
+
+  label {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0;
+    border: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
   }
 }
 
@@ -72,22 +147,22 @@ header {
 .cardContainer {
   position: relative;
   background: #000;
-  border-radius: 18px;
+  border-radius: var(--radius-l);
   overflow: hidden;
   box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  transition: all .3s ease-in-out;
+  transition: all var(--duration) var(--a-type);
 
   img {
     width: 100%;
     aspect-ratio: 6/9;
-    transition: all .3s ease-in-out;
+    transition: all var(--duration) var(--a-type);
   }
 }
 
 .movieInfo {
   position: absolute;
   bottom: -100%;
-  transition: all .3s ease-in-out;
+  transition: all var(--duration) var(--a-type);
   height: 100%;
   padding: 16px;
   display: flex;
@@ -121,7 +196,7 @@ header {
 /* ------ALERT------ */
 .alert {
   position: absolute;
-  top: 0;
+  bottom: -100%;
   right: 0;
   display: flex;
   align-items: center;

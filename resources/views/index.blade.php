@@ -3,13 +3,6 @@
     <div class="container" style="position: relative">
         <h1>Tous les films sauvegardés</h1>
 
-        @session('success')
-            <span class="alert"><i class='bxr  bx-check-circle'></i>{{ session('success') }}</span>
-        @endsession
-        @session('error')
-            <span class="alert"><i class='bxr  bx-check-circle'></i>{{ session('error') }}</span>
-        @endsession
-
         <div>
             @foreach ($savedMovies as $movie)
                 <div class="homeMovieBox">
@@ -27,6 +20,6 @@
                     </form>
                 </div>
             @endforeach
-
+        </div>
     </div>
 @endsection

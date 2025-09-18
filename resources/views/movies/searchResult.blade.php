@@ -1,7 +1,7 @@
 @extends('base')
 @section('content')
     <div class="container">
-        <h1>{!! $title !!}</h1>
+        <h1>{{ $title }}</h1>
     
         <div class="moviesContainer">
             @foreach ($movies->results as $movie)

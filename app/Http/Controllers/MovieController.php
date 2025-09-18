@@ -15,7 +15,7 @@ class MovieController extends Controller
 
         // dd($popularMovies);
 
-        return view('movies.popular', ['movies' => $popularMovies]);
+        return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films populaires <span class="highlight">populaires</span>']);
     }
 
     // public function getSearch(Request $request) {
@@ -112,5 +112,17 @@ class MovieController extends Controller
     public function index() {
         $savedMovies = Movie::all()->load('genres');
         return view('index', ['savedMovies' => $savedMovies]);
+    }
+
+    function searchMovie(Request $request) {
+        if ($request->has('search') && $request->input('search') !== '') {
+            $searchName = $request->input('search');
+            $searchResults = $this->getCurlDatas('search/movie?query='.$searchName.'&include_adult=false&language=fr-FR&page=1');
+            // dd($searchResults);
+            return view('movies.popular', ['movies' => $searchResults, 'title' => 'Résultats de la recherche pour : <span class="highlight">'.$searchName.'</span>']);
+        }
+        else {
+            return redirect()->route('home')->with('error', 'Recherche invalide');
+        }
     }
 }

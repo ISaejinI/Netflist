@@ -10,7 +10,7 @@ Route::get('/popular', [MovieController::class, 'getPopular'])->name('popularmov
 // Route::get('/popular/{page}', [App\Http\Controllers\MovieController::class, 'getPopular'])->name('popularmovies');
 
 //Ajouter une route pour ajouter un film à la DB
-Route::post('/store-movie', [MovieController::class, 'storeMovie'])->name('storemovie');
+Route::post('/storeMovie', [MovieController::class, 'storeMovie'])->name('storemovie');
 
 // Faire un groupe avec les deux routes de MoviesController
 
@@ -19,3 +19,5 @@ Route::post('/markAsWatched', [MovieController::class, 'markAsWatched'])->name('
 Route::get('/index', [MovieController::class, 'index'])->name('savedmovies');
 
 Route::delete('/deleteMovie', [MovieController::class, 'deleteMovie'])->name('deletemovie');
+
+Route::get('/search', [MovieController::class, 'searchMovie'])->name('search');

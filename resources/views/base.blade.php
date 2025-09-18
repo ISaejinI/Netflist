@@ -1,27 +1,49 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-        <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Styles / Scripts -->
-        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-    </head>
-    <body>
-        <header>
-            <div class="container">
-                <a href="{{ route('home') }}"><img src="{{ asset('img/logoNetflist.png') }}" alt="" id="logo"></a>
-                @include('nav')
-            </div>
-        </header>
-        @yield('content')
-    </body>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Styles / Scripts -->
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="{{ route('home') }}"><img src="{{ asset('img/logoNetflist.png') }}" alt=""
+                    id="logo"></a>
+            @include('nav')
+        </div>
+    </header>
+    <div class="container" id="info-container">
+        <form role="search" id="searchForm" method="GET" action="{{ route('search')}}">
+            <label for="search">Recherche d'un film</label>
+            <input id="search" type="search" placeholder="Rechercher..." autofocus required name="search" />
+            <button type="submit"><i class='bxr  bx-search'></i></button>
+        </form>
+
+        {{-- Gestion des messages d'erreurs ou de validation --}}
+        @session('success')
+            <span class="alert success"><i class='bxr  bx-check-circle'></i>{{ session('success') }}</span>
+        @endsession
+        @session('error')
+            <span class="alert error"><i class='bxr  bx-alert-circle'></i> {{ session('error') }}</span>
+        @endsession
+
+    </div>
+    @yield('content')
+</body>
+
 </html>
