@@ -89,12 +89,12 @@ class MovieController extends Controller
 
             $actors = $cast->cast;
             if (isset($actors)) {
-                foreach ($actors as $actor) {
+                foreach (array_slice($actors, 0, 8) as $actor) {
                     $actorProfileUrl = 'https://image.tmdb.org/t/p/w500'.$actor->profile_path;
                     $contents = file_get_contents($actorProfileUrl);
                     $actorProfileName = $actor->id.'profile.jpg';
                     Storage::disk('public')->put('actors/'.$actorProfileName, $contents);
-                    $actor_profile_path = 'actors/'.$name;
+                    $actor_profile_path = 'actors/'.$actorProfileName;
                     $newActor = Actor::firstOrCreate(
                         ['tmdb_actor_id' => $actor->id],
                         ['name' => $actor->name, 'avatar_path' => $actor_profile_path]
