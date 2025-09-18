@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('actors', function (Blueprint $table) {
             $table->id();
-            $table->integer('tmdb_id')->unique();
+            $table->integer('tmdb_actor_id')->unique();
             $table->string('name');
             $table->string('avatar_path')->nullable();
             $table->timestamps();

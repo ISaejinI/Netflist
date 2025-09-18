@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actor;
 use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Http\Request;
@@ -56,7 +57,8 @@ class MovieController extends Controller
     public function storeMovie(Request $request) {
         if ($request->has('movie_id') && $request->input('movie_id') > 0) {
             $movie = $this->getCurlDatas('movie/'.$request->input('movie_id').'?language=fr-FR');
-            // dd($movie);
+            $cast = $this->getCurlDatas('movie/'.$request->input('movie_id').'/credits?language=fr-FR');
+            // dd($cast);
             $posterUrl = 'https://image.tmdb.org/t/p/w500'.$movie->poster_path;
             $contents = file_get_contents($posterUrl);
             $name = $request->input('movie_id').'poster.jpg';
@@ -84,6 +86,23 @@ class MovieController extends Controller
                     $newMovie->genres()->attach($newGenre->id);
                 }
             }
+
+            $actors = $cast->cast;
+            if (isset($actors)) {
+                foreach ($actors as $actor) {
+                    $actorProfileUrl = 'https://image.tmdb.org/t/p/w500'.$actor->profile_path;
+                    $contents = file_get_contents($actorProfileUrl);
+                    $actorProfileName = $actor->id.'profile.jpg';
+                    Storage::disk('public')->put('actors/'.$actorProfileName, $contents);
+                    $actor_profile_path = 'actors/'.$name;
+                    $newActor = Actor::firstOrCreate(
+                        ['tmdb_actor_id' => $actor->id],
+                        ['name' => $actor->name, 'avatar_path' => $actor_profile_path]
+                    );
+                    $newMovie->actors()->attach($newActor->id, ['character' => $actor->character]);
+                }
+            }
+
         }
         return back()->with('success', 'Film ajouté');
     }

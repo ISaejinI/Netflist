@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Actor extends Model
 {
-    protected $fillable = ['tmdb_id', 'name', 'avatar_path'];
+    protected $fillable = ['tmdb_actor_id', 'name', 'avatar_path'];
 
     public function movies()
     {
