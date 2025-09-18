@@ -10,6 +10,7 @@ class SinglemovieController extends Controller
     public function movieDetail($id)
     {
         $movie = Movie::with('genres')->findOrFail($id);
+        // dd($movie);
         return view('moviedetail', ['movie' => $movie]);
     }
 }

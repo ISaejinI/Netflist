@@ -10,7 +10,12 @@ class Movie extends Model
     protected $fillable = [
         'movie_id', 
         'title', 
-        'poster_path'
+        'poster_path',
+        'description',
+        'release_date',
+        'rating',
+        'origin_country',
+        'watched'
     ];
 
     public function genres(): BelongsToMany {
