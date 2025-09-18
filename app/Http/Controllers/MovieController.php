@@ -90,7 +90,8 @@ class MovieController extends Controller
 
             $actors = $cast->cast;
             if (isset($actors)) {
-                foreach (array_slice($actors, 0, 5) as $actor) {
+                $actorSliced = array_slice($actors, 0, 5);
+                foreach ($actorSliced as $actor) {
                     $actorProfileUrl = 'https://image.tmdb.org/t/p/w500'.$actor->profile_path;
                     $contents = file_get_contents($actorProfileUrl);
                     $actorProfileName = $actor->id.'profile.jpg';
@@ -108,7 +109,7 @@ class MovieController extends Controller
             if (isset($directors)) {
                 foreach ($directors as $director) {
                     if ($director->known_for_department == 'Directing') {
-                        $directorProfileUrl = 'https://image.tmdb.org/t/p/w500'.$director->profile_path;
+                        $directorProfileUrl = 'https://image.tmdb.org/t/p/w185'.$director->profile_path;
                         $contents = file_get_contents($directorProfileUrl);
                         $directorProfileName = $director->id.'profile.jpg';
                         Storage::disk('public')->put('directors/'.$directorProfileName, $contents);
