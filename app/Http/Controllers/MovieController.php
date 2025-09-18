@@ -115,7 +115,7 @@ class MovieController extends Controller
         return view('index', ['savedMovies' => $savedMovies]);
     }
 
-    function searchMovie(Request $request) {
+    public function searchMovie(Request $request) {
         if ($request->has('search') && $request->input('search') !== '') {
             $searchName = $request->input('search');
             $searchResults = $this->getCurlDatas('search/movie?query='.$searchName.'&include_adult=false&language=fr-FR&page=1');
@@ -125,5 +125,17 @@ class MovieController extends Controller
         else {
             return redirect()->route('home')->with('error', 'Recherche invalide');
         }
+    }
+
+    public function getBestRated() {
+        $bestRatedMovies = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $bestRatedMoviesPage = $this->getCurlDatas('movie/top_rated?language=fr-FR&page='.$i);
+            if (isset($bestRatedMoviesPage->results)) {
+                $bestRatedMovies = array_merge($bestRatedMovies, $bestRatedMoviesPage->results);
+            }
+        }
+        $bestRatedMovies = (object) ['results' => $bestRatedMovies];
+        return view('movies.bestRated', ['movies' => $bestRatedMovies, 'title' => 'Les films les mieux notés', 'type' => 'bestRated']);
     }
 }

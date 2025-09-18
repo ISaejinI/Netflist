@@ -193,6 +193,24 @@ header {
   right: 16px;
 }
 
+/* ------BEST RATED MOVIES------ */
+.rankCard {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.movieRank {
+  font-size: 70px;
+  font-weight: 900;
+  color: var(--noir);
+  -webkit-text-stroke: var(--blanc) 2px;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
 /* ------ALERT------ */
 .alert {
   position: absolute;
@@ -207,7 +225,7 @@ header {
     background-color: yellowgreen;
     color: green;
   }
-  
+
   &&.error {
     background-color: #ff4c4c;
     color: darkred;

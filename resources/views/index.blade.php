@@ -1,4 +1,4 @@
-@extends('base')
+@extends('bases.base')
 @section('content')
     <div class="container" style="position: relative">
         <h1>Tous les films sauvegardés</h1>

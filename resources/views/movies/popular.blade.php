@@ -1,4 +1,4 @@
-@extends('base')
+@extends('bases.base')
 @section('content')
     <div class="container">
         <h1>{!! $title !!}</h1>
@@ -25,7 +25,8 @@
             </div>
             @endforeach
         </div>
-
+        
+        {{-- Pagination --}}
         @if ($type === 'popular' && $movies->total_pages > 1)
             <div class="pagination">
                 <a href="{{ route('popularmovies', ['page' => 1]) }}"><i class='bxr  bx-chevrons-left'></i></a>

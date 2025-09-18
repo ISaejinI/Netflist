@@ -6,22 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'getHomeDatas'])->name('home');
 
-// Route::get('/popularMovies', [MovieController::class, 'getPopular'])->name('popularmovies');
-// Route::get('/popular/{page}', [App\Http\Controllers\MovieController::class, 'getPopular'])->name('popularmovies');
-
-// Route::post('/storeMovie', [MovieController::class, 'storeMovie'])->name('storemovie');
-
-// Route::post('/markAsWatched', [MovieController::class, 'markAsWatched'])->name('watched');
-
-// Route::get('/myWatchlist', [MovieController::class, 'index'])->name('savedmovies');
-
-// Route::delete('/deleteMovie', [MovieController::class, 'deleteMovie'])->name('deletemovie');
-
-// Route::get('/search', [MovieController::class, 'searchMovie'])->name('search');
-
-
 Route::controller(MovieController::class)->group(function() {
     Route::get('/popularMovies/{page?}', 'getPopular')->name('popularmovies');
+    Route::get('/bestRatedMovies', 'getBestRated')->name('bestratedmovies');
     Route::post('/storeMovie', 'storeMovie')->name('storemovie');
     Route::post('/markAsWatched', 'markAsWatched')->name('watched');
     Route::get('/myWatchlist', 'index')->name('savedmovies');

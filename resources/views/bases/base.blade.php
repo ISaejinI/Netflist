@@ -24,7 +24,7 @@
         <div class="container">
             <a href="{{ route('home') }}"><img src="{{ asset('img/logoNetflist.png') }}" alt=""
                     id="logo"></a>
-            @include('nav')
+            @include('bases.nav')
         </div>
     </header>
     <div class="container" id="info-container">
