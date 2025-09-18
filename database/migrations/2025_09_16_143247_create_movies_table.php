@@ -16,6 +16,10 @@ return new class extends Migration
             $table->integer('movie_id')->unique();
             $table->string('title');
             $table->string('poster_path')->nullable();
+            $table->text('description')->nullable();
+            $table->date('release_date')->nullable();
+            $table->float('rating')->nullable();
+            $table->string('origin_country')->nullable();
             $table->boolean('watched')->default(false);
             $table->timestamps();
         });

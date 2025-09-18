@@ -65,7 +65,14 @@ class MovieController extends Controller
 
             $newMovie = Movie::firstOrCreate(
                 ['movie_id' => $request->input('movie_id')], 
-                ['title' => $movie->title, 'poster_path' => $path]
+                [
+                    'title' => $movie->title, 
+                    'poster_path' => $path,
+                    'description' => $movie->overview,
+                    'release_date' => $movie->release_date,
+                    'rating' => $movie->vote_average,
+                    'origin_country' => isset($movie->origin_country[0]) ? $movie->origin_country[0] : null
+                ]
             );
 
             if (isset($movie->genres)) {
@@ -78,7 +85,7 @@ class MovieController extends Controller
                 }
             }
         }
-        return redirect()->route('popularmovies')->with('success', 'Film ajouté');
+        return back()->with('success', 'Film ajouté');
     }
 
     public function markAsWatched(Request $request) {
