@@ -17,7 +17,7 @@
                 @foreach ($movie->actors as $actor)
                     <li>
                         <img src="{{ Storage::url($actor->avatar_path) }}" alt="{{ $actor->name }}" style="width: 50px">
-                        {{ $actor->name }} - Rôle : {{-- Récupérer le champ character stocké sur la table actor_movie --}}
+                        {{ $actor->name }} - Rôle : {{ $actor->pivot->character }}
                     </li>
                 @endforeach
             </ul>
