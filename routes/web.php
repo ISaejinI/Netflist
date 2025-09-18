@@ -21,7 +21,7 @@ Route::get('/', [HomeController::class, 'getHomeDatas'])->name('home');
 
 
 Route::controller(MovieController::class)->group(function() {
-    Route::get('/popularMovies', 'getPopular')->name('popularmovies');
+    Route::get('/popularMovies/{page?}', 'getPopular')->name('popularmovies');
     Route::post('/storeMovie', 'storeMovie')->name('storemovie');
     Route::post('/markAsWatched', 'markAsWatched')->name('watched');
     Route::get('/myWatchlist', 'index')->name('savedmovies');

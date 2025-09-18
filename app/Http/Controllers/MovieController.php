@@ -9,19 +9,15 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
-    public function getPopular()
+    public function getPopular(Request $request)
     {
-        $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&page=1");
-
+        $currentPage = $request->route('page', 1);
+        if (is_numeric($currentPage) && $currentPage > 0) {
+            $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&page=".$currentPage);
+            return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films populaires <span class="highlight">populaires</span>', 'type' => 'popular']);
+        }
         // dd($popularMovies);
-
-        return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films populaires <span class="highlight">populaires</span>']);
     }
-
-    // public function getSearch(Request $request) {
-    //     $query = $request->inpput('search');
-    //     $movies_datas = $this->getCurlDatas('/search/movie?query')
-    // }
 
     public function getCurlDatas($url)
     {
@@ -119,7 +115,7 @@ class MovieController extends Controller
             $searchName = $request->input('search');
             $searchResults = $this->getCurlDatas('search/movie?query='.$searchName.'&include_adult=false&language=fr-FR&page=1');
             // dd($searchResults);
-            return view('movies.popular', ['movies' => $searchResults, 'title' => 'Résultats de la recherche pour : <span class="highlight">'.$searchName.'</span>']);
+            return view('movies.popular', ['movies' => $searchResults, 'title' => 'Résultats de la recherche pour : <span class="highlight">'.$searchName.'</span>', 'type' => 'search']);
         }
         else {
             return redirect()->route('home')->with('error', 'Recherche invalide');
