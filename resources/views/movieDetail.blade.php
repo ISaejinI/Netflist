@@ -97,20 +97,9 @@
                         <input type="hidden" name="movie_id" value="{{ $movie->id }}">
                         <button type="submit" class="btn-watch-trailer">
                             <i class='bx bx-play'></i>
-                            WATCH TRAILER
+                            Marquer comme vu
                         </button>
                     </form>
-                    <div class="secondary-actions">
-                        <button class="action-btn" title="Partager">
-                            <i class='bx bx-share'></i>
-                        </button>
-                        <button class="action-btn" title="Ajouter à la liste">
-                            <i class='bx bx-bookmark'></i>
-                        </button>
-                        <button class="action-btn" title="Télécharger">
-                            <i class='bx bx-download'></i>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
