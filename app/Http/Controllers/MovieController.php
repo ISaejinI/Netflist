@@ -237,4 +237,85 @@ class MovieController extends Controller
             return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
         }
     }
+
+    public function storeSerie(Request $request)
+    {
+        // if (Auth::check()) {
+        //     if ($request->has('serie_id') && $request->input('serie_id') > 0) {
+        //         $movie = $this->getCurlDatas('movie/' . $request->input('serie_id') . '?language=fr-FR');
+        //         $cast = $this->getCurlDatas('movie/' . $request->input('serie_id') . '/credits?language=fr-FR');
+        //         // dd($cast);
+        //         $posterUrl = 'https://image.tmdb.org/t/p/w500' . $movie->poster_path;
+        //         $contents = file_get_contents($posterUrl);
+        //         $name = $request->input('serie_id') . 'poster.jpg';
+        //         Storage::disk('public')->put('posters/' . $name, $contents);
+        //         $path = 'posters/' . $name;
+
+        //         $newMovie = Movie::firstOrCreate(
+        //             ['serie_id' => $request->input('serie_id')],
+        //             [
+        //                 'title' => $movie->title,
+        //                 'poster_path' => $path,
+        //                 'description' => $movie->overview,
+        //                 'release_date' => $movie->release_date,
+        //                 'rating' => $movie->vote_average,
+        //                 'origin_country' => isset($movie->origin_country[0]) ? $movie->origin_country[0] : null
+        //             ]
+        //         );
+
+        //         if (isset($movie->genres)) {
+        //             foreach ($movie->genres as $genre) {
+        //                 $newGenre = Genre::firstOrCreate(
+        //                     ['id_genre_tmdb' => $genre->id],
+        //                     ['name' => $genre->name]
+        //                 );
+        //                 $newMovie->genres()->attach($newGenre->id);
+        //             }
+        //         }
+
+        //         $actors = $cast->cast;
+        //         if (isset($actors)) {
+        //             $actorSliced = array_slice($actors, 0, 5);
+        //             foreach ($actorSliced as $actor) {
+        //                 $actorProfileUrl = 'https://image.tmdb.org/t/p/w500' . $actor->profile_path;
+        //                 $contents = file_get_contents($actorProfileUrl);
+        //                 $actorProfileName = $actor->id . 'profile.jpg';
+        //                 Storage::disk('public')->put('actors/' . $actorProfileName, $contents);
+        //                 $actor_profile_path = 'actors/' . $actorProfileName;
+        //                 $newActor = Actor::firstOrCreate(
+        //                     ['tmdb_actor_id' => $actor->id],
+        //                     ['name' => $actor->name, 'avatar_path' => $actor_profile_path]
+        //                 );
+        //                 $newMovie->actors()->attach($newActor->id, ['character' => $actor->character]);
+        //             }
+        //         }
+
+        //         $directors = $cast->crew;
+        //         if (isset($directors)) {
+        //             foreach ($directors as $director) {
+        //                 if ($director->known_for_department == 'Directing') {
+        //                     $directorProfileUrl = 'https://image.tmdb.org/t/p/w185' . $director->profile_path;
+        //                     $contents = file_get_contents($directorProfileUrl);
+        //                     $directorProfileName = $director->id . 'profile.jpg';
+        //                     Storage::disk('public')->put('directors/' . $directorProfileName, $contents);
+        //                     $director_profile_path = 'directors/' . $directorProfileName;
+        //                     $newDirector = Director::firstOrCreate(
+        //                         ['tmdb_director_id' => $director->id],
+        //                         ['name' => $director->name, 'photo_path' => $director_profile_path]
+        //                     );
+        //                     $newMovie->directors()->attach($newDirector->id);
+        //                     break;
+        //                 }
+        //             }
+        //         }
+
+        //         $request->user()->movies()->attach($newMovie->id, ['watched' => false, 'liked' => false]);
+
+        //         return back()->with('success', 'Film ajouté');
+        //     } else {
+        //         return back()->with('error', 'Film invalide');
+        //     }
+        // }
+        // return redirect()->route('login')->with('error', 'Il faut être connecté pour ajouter un film');
+    }
 }

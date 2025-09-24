@@ -18,6 +18,7 @@ Route::controller(MovieController::class)->group(function() {
     Route::get('/search', 'searchMovie')->name('search');
     // Series
     Route::get('/popularSeries', 'getPopularTV')->name('popularseries');
+    Route::post('/storeSerie', 'storeSerie')->name('storeserie');
 });
 
 Route::get('/movie/{id}', [SinglemovieController::class, 'movieDetail'])->name('moviedetail');

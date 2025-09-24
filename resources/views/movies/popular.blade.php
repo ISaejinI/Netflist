@@ -16,7 +16,7 @@
                     @php
                         $title = $type==='popular'?'title':'name';
                         $date = $type==='popular'?'release_date':'first_air_date';
-
+                        $isMovie = $type==='popular'?true:false;
                     @endphp
                     @foreach ($movies->results as $movie)
                         <x-movie-card 
@@ -28,6 +28,7 @@
                             rating="{{ $movie->vote_average }}"
                             overview="{{ $movie->overview }}"
                             genres=""
+                            isMovie={{ $isMovie }}
                         />
                     @endforeach
                 </div>

@@ -1103,7 +1103,7 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23E50914" stop-opacity="0.1"/><stop offset="100%" stop-color="%23E50914" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23a)"/><circle cx="800" cy="300" r="200" fill="url(%23a)"/><circle cx="500" cy="700" r="400" fill="url(%23a)"/></svg>') no-repeat center center;
+  background: url(/img/herobg.webp) no-repeat center center;
   background-size: cover;
   opacity: 0.3;
 }
@@ -1382,7 +1382,7 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23E50914" stop-opacity="0.1"/><stop offset="100%" stop-color="%23E50914" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23a)"/><circle cx="800" cy="300" r="200" fill="url(%23a)"/><circle cx="500" cy="700" r="400" fill="url(%23a)"/></svg>') no-repeat center center;
+  background: url(/img/herobg.webp) no-repeat center center;
   background-size: cover;
   opacity: 0.3;
 }
@@ -1704,7 +1704,7 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23E50914" stop-opacity="0.1"/><stop offset="100%" stop-color="%23E50914" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23a)"/><circle cx="800" cy="300" r="200" fill="url(%23a)"/><circle cx="500" cy="700" r="400" fill="url(%23a)"/></svg>') no-repeat center center;
+  background: url(/img/herobg.webp) no-repeat center center;
   background-size: cover;
   opacity: 0.3;
 }

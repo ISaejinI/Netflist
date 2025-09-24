@@ -20,7 +20,7 @@ class MovieCard extends Component
         public $date,
         public $rating,
         public string $overview,
-
+        public bool $isMovie = true,
     )
     {
 
