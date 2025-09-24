@@ -120,11 +120,6 @@ class MovieController extends Controller
                 if (isset($directors)) {
                     foreach ($directors as $director) {
                         if ($director->known_for_department == 'Directing') {
-                            // $directorProfileUrl = 'https://image.tmdb.org/t/p/w185' . $director->profile_path;
-                            // $contents = file_get_contents($directorProfileUrl);
-                            // $directorProfileName = $director->id . 'profile.jpg';
-                            // Storage::disk('public')->put('directors/' . $directorProfileName, $contents);
-                            // $director_profile_path = 'directors/' . $directorProfileName;
                             $newDirector = Director::firstOrCreate(
                                 ['id_director_tmdb' => $director->id],
                                 [
@@ -214,8 +209,9 @@ class MovieController extends Controller
     public function searchMovie(Request $request)
     {
         if ($request->has('search') && $request->input('search') !== '') {
-            $searchName = $request->input('search');
-            $searchResults = $this->getCurlDatas('search/movie?query=' . $searchName . '&include_adult=false&language=fr-FR&page=1');
+            $searchName = urlencode($request->input('search'));
+            $searchResults = $this->getCurlDatas('search/multi?query=' . $searchName . '&include_adult=false&language=fr-FR&page=1');
+            // dd($searchResults);
             return view('movies.popular', ['movies' => $searchResults, 'title' => 'Résultats de la recherche pour : <span class="highlight">' . $searchName . '</span>', 'type' => 'search']);
         } else {
             return back()->with('error', 'Recherche invalide');
