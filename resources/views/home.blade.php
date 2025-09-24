@@ -24,7 +24,7 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title-home">Votre <span class="highlight">Watchlist</span></h2>
-                @isset($selectedGenre) 
+                @isset($selectedGenre)
                     <div class="filter-indicator">
                         <i class='bx bx-filter'></i>
                         <span>Filtrée par : {{ $selectedGenre }}</span>
@@ -32,67 +32,63 @@
                 @endisset
             </div>
 
-            <!-- Filter Form -->
-            <div class="filter-container">
-                <form action="{{ route('home') }}" method="get" class="filter-form">
-                    @csrf
-                    <div class="filter-group">
-                        <label for="genre" class="filter-label">
-                            <i class='bx bx-category'></i>
-                            Filtrer par genre
-                        </label>
-                        <select name="genre" id="genre" class="filter-select">
-                            <option value="">Tous les genres</option>
-                            @isset($allGenres)
-                                @foreach ($allGenres as $genre)
-                                    <option value="{{ $genre->id }}" {{ request('genre') == $genre->id ? 'selected' : '' }}>
-                                        {{ $genre->name }} ({{ $genre->movies_count }})
-                                    </option>
-                                @endforeach
-                            @endisset
-                        </select>
-                        <button type="submit" class="filter-btn">
-                            <i class='bx bx-search'></i>
-                            Filtrer
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Movies Grid -->
-            @if(isset($savedMovies) && $savedMovies->count() > 0)
-                <div class="movies-grid">
-                    @foreach ($savedMovies as $movie)
-                        <x-movie-card 
-                            poster="{{ $movie->poster_path }}"
-                            title="{{ $movie->title }}"
-                            id="{{ $movie->id }}"
-                            :genres="$movie->genres"
-                        />
-                    @endforeach
-                </div>
-            @else
+            @guest
                 <div class="empty-state">
                     <div class="empty-icon">
                         <i class='bx bx-movie'></i>
                     </div>
-                    @if (isset($savedMovies))
+                    <h3>Connectez-vous pour accéder à votre watchlist</h3>
+                    <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
+                    <a href="{{ route('login') }}" class="btn-primary"> <i class='bx bx-plus'></i> Se connecter </a>
+                </div>
+            @endguest
+
+            @auth
+                @if (!$savedMovies->count() > 0)
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class='bx bx-movie'></i>
+                        </div>
                         <h3>Votre watchlist est vide</h3>
                         <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
-                        <a href="{{ route('popularmovies') }}" class="btn-primary">
-                            <i class='bx bx-plus'></i>
-                            Découvrir des films
+                        <a href="{{ route('popularmovies') }}" class="btn-primary"> <i class='bx bx-plus'></i> Découvrir des films
                         </a>
-                    @else
-                        <h3>Connectez-vous pour accéder à votre watchlist</h3>
-                        <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
-                        <a href="{{ route('login') }}" class="btn-primary">
-                            <i class='bx bx-plus'></i>
-                            Se connecter
-                        </a>
-                    @endif
-                </div>
-            @endif
+                    </div>
+                @else
+                    <!-- Filter Form -->
+                    <div class="filter-container">
+                        <form action="{{ route('home') }}" method="get" class="filter-form">
+                            @csrf
+                            <div class="filter-group">
+                                <label for="genre" class="filter-label">
+                                    <i class='bx bx-category'></i>
+                                    Filtrer par genre
+                                </label>
+                                <select name="genre" id="genre" class="filter-select">
+                                    <option value="">Tous les genres</option>
+                                    @isset($allGenres)
+                                        @foreach ($allGenres as $genre)
+                                            <option value="{{ $genre->id }}"
+                                                {{ request('genre') == $genre->id ? 'selected' : '' }}>
+                                                {{ $genre->name }} ({{ $genre->movies_count }})
+                                            </option>
+                                        @endforeach
+                                    @endisset
+                                </select>
+                                <button type="submit" class="filter-btn"> <i class='bx bx-search'></i> Filtrer </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Movies Grid -->
+                    <div class="movies-grid">
+                        @foreach ($savedMovies as $movie)
+                            <x-movie-card poster="{{ $movie->poster_path }}" title="{{ $movie->title }}"
+                                id="{{ $movie->id }}" :genres="$movie->genres" />
+                        @endforeach
+                    </div>
+                @endif
+            @endauth
         </div>
     </section>
 @endsection
