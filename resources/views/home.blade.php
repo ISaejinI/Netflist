@@ -7,7 +7,7 @@
             <h1 class="hero-title">Découvrez votre prochaine <span class="highlight">obsession</span></h1>
             <p class="hero-subtitle">Parcourez une collection infinie de films et séries, personnalisée selon vos goûts</p>
             <div class="hero-buttons">
-                <a href="#watchlist" class="btn-primary">
+                <a href="{{ route('popularmovies') }}" class="btn-primary">
                     <i class='bx bx-play'></i>
                     Explorer maintenant
                 </a>
@@ -43,11 +43,13 @@
                         </label>
                         <select name="genre" id="genre" class="filter-select">
                             <option value="">Tous les genres</option>
-                            @foreach ($allGenres as $genre)
-                                <option value="{{ $genre->id }}" {{ request('genre') == $genre->id ? 'selected' : '' }}>
-                                    {{ $genre->name }} ({{ $genre->movies_count }})
-                                </option>
-                            @endforeach
+                            @isset($allGenres)
+                                @foreach ($allGenres as $genre)
+                                    <option value="{{ $genre->id }}" {{ request('genre') == $genre->id ? 'selected' : '' }}>
+                                        {{ $genre->name }} ({{ $genre->movies_count }})
+                                    </option>
+                                @endforeach
+                            @endisset
                         </select>
                         <button type="submit" class="filter-btn">
                             <i class='bx bx-search'></i>
@@ -58,36 +60,15 @@
             </div>
 
             <!-- Movies Grid -->
-            @if($savedMovies->count() > 0)
+            @if(isset($savedMovies) && $savedMovies->count() > 0)
                 <div class="movies-grid">
                     @foreach ($savedMovies as $movie)
-                        <div class="movie-card">
-                            <div class="movie-poster">
-                                <img src="{{ Storage::url($movie->poster_path) }}" alt="{{ $movie->title }}" loading="lazy">
-                                <div class="movie-overlay">
-                                    <div class="movie-actions">
-                                        <a href="{{ route('moviedetail', $movie->id) }}" class="action-btn primary" title="Voir le film">
-                                            <i class='bx bx-play'></i>
-                                        </a>
-                                        <form action="{{ route('watched') }}" method="post" class="action-form">
-                                            @csrf
-                                            <input type="hidden" name="movie_id" value="{{ $movie->id }}">
-                                            <button type="submit" class="action-btn secondary" title="Marquer comme vu">
-                                                <i class='bx bx-check'></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="movie-info">
-                                <h3 class="movie-title-home">{{ $movie->title }}</h3>
-                                <div class="movie-genres">
-                                    @foreach ($movie->genres as $genre)
-                                        <span class="genre-tag-home">{{ $genre->name }}</span>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
+                        <x-movie-card 
+                            poster="{{ $movie->poster_path }}"
+                            title="{{ $movie->title }}"
+                            id="{{ $movie->id }}"
+                            :genres="$movie->genres"
+                        />
                     @endforeach
                 </div>
             @else
@@ -95,12 +76,21 @@
                     <div class="empty-icon">
                         <i class='bx bx-movie'></i>
                     </div>
-                    <h3>Votre watchlist est vide</h3>
-                    <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
-                    <a href="{{ route('popularmovies') }}" class="btn-primary">
-                        <i class='bx bx-plus'></i>
-                        Découvrir des films
-                    </a>
+                    @if (isset($savedMovies))
+                        <h3>Votre watchlist est vide</h3>
+                        <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
+                        <a href="{{ route('popularmovies') }}" class="btn-primary">
+                            <i class='bx bx-plus'></i>
+                            Découvrir des films
+                        </a>
+                    @else
+                        <h3>Connectez-vous pour accéder à votre watchlist</h3>
+                        <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
+                        <a href="{{ route('login') }}" class="btn-primary">
+                            <i class='bx bx-plus'></i>
+                            Se connecter
+                        </a>
+                    @endif
                 </div>
             @endif
         </div>
