@@ -313,11 +313,6 @@ class MovieController extends Controller
                 if (isset($directors)) {
                     foreach ($directors as $director) {
                         if ($director->known_for_department == 'Directing') {
-                            // $directorProfileUrl = 'https://image.tmdb.org/t/p/w185' . $director->profile_path;
-                            // $contents = file_get_contents($directorProfileUrl);
-                            // $directorProfileName = $director->id . 'profile.jpg';
-                            // Storage::disk('public')->put('directors/' . $directorProfileName, $contents);
-                            // $director_profile_path = 'directors/' . $directorProfileName;
                             $newDirector = Director::firstOrCreate(
                                 ['id_director_tmdb' => $director->id],
                                 [

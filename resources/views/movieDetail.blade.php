@@ -20,6 +20,7 @@
                 <div class="movie-header">
                     <div class="title-row">
                         <h1 class="movie-title">{{ $movie->name }}</h1>
+                        <p>{{ $movie->tagline }}</p>
                         <span class="release-year">{{ date('Y', strtotime($movie->release_date)) }}</span>
                     </div>
 
@@ -41,7 +42,7 @@
 
                 <!-- Section Summary -->
                 <div class="summary-section">
-                    <h2 class="section-title">SUMMARY</h2>
+                    <h2 class="section-title">Synopsis</h2>
                     <p class="movie-description">{{ $movie->overview }}</p>
                     <div class="additional-info">
                         <div class="info-item">
@@ -56,7 +57,7 @@
                 <!-- Section Cast -->
                 @if($movie->actors->count() > 0)
                 <div class="cast-section">
-                    <h2 class="section-title">CAST</h2>
+                    <h2 class="section-title">Acteurs</h2>
                     <div class="cast-grid">
                         @foreach ($movie->actors->take(4) as $actor)
                             <div class="cast-member">
@@ -76,7 +77,7 @@
                 <!-- Section Directors -->
                 @if($movie->directors->count() > 0)
                 <div class="directors-section">
-                    <h2 class="section-title">DIRECTORS</h2>
+                    <h2 class="section-title">Réalisateur</h2>
                     <div class="directors-grid">
                         @foreach ($movie->directors as $director)
                             <div class="director-member">
@@ -101,7 +102,15 @@
                         </button>
                     </form>
                 </div>
+
             </div>
+            <!-- Affichage des épisodes -->
+            @if ($movie->is_movie == false)
+                <h2 class="section-title">Épisodes</h2>
+                @foreach ($movie->episodes as $episode)
+                    {{ $episode->episode_name }}
+                @endforeach
+            @endif
         </div>
     </div>
 @endsection

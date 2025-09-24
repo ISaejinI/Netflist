@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Title extends Model
 {
@@ -36,7 +37,7 @@ class Title extends Model
         return $this->belongsToMany(User::class)->withPivot('watched', 'liked');
     }
 
-    public function episodes(): BelongsToMany {
-        return $this->belongsToMany(Episode::class);
+    public function episodes(): HasMany {
+        return $this->hasMany(Episode::class);
     }
 }
