@@ -102,15 +102,19 @@
                         </button>
                     </form>
                 </div>
-
             </div>
-            <!-- Affichage des épisodes -->
-            @if ($movie->is_movie == false)
-                <h2 class="section-title">Épisodes</h2>
-                @foreach ($movie->episodes as $episode)
-                    {{ $episode->episode_name }}
-                @endforeach
-            @endif
         </div>
+
+        <!-- Affichage des épisodes -->
+        @if ($movie->is_movie == false)
+            <h2 class="section-title">Épisodes</h2>
+            @foreach ($movie->episodes as $episode)
+                <div>
+                    <p>Épisode {{ $episode->episode_number }} : {{ $episode->episode_name }}</p>
+                    <p>{{ $episode->episode_duration }}</p>
+                    <p>{{ $episode->episode_overview }}</p>
+                </div>
+            @endforeach
+        @endif
     </div>
 @endsection
