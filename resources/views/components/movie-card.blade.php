@@ -19,7 +19,7 @@
                         </button>
                     </form>
                 @elseif ($type == 'popular')
-                    @if ($isMovie == true)
+                    @if ($isMovie === true)
                         <form action="{{ route('storemovie') }}" method="POST" class="action-form">
                             @csrf
                             <input type="hidden" name="movie_id" value="{{ $id }}">
@@ -27,7 +27,7 @@
                                 <i class='bx bx-plus'></i>
                             </button>
                         </form>
-                    @else
+                    @elseif($isMovie === false)
                         <form action="{{ route('storeserie') }}" method="POST" class="action-form">
                             @csrf
                             <input type="hidden" name="serie_id" value="{{ $id }}">

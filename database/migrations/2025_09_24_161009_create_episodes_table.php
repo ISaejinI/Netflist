@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('episodes', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_episode_tmdb');
             $table->unsignedBigInteger('title_id');
             $table->foreign('title_id')->references('id')->on('titles')->onDelete('cascade');
             $table->integer('season');
             $table->integer('episode_number');
             $table->string('episode_name');
             $table->text('episode_overview')->nullable();
-            $table->time('episode_duration')->nullable();
+            $table->integer('episode_duration')->nullable();
             $table->timestamps();
         });
     }

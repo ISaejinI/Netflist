@@ -24,13 +24,13 @@ class HomeController extends Controller
 
             $savedMovies = $savedMovies->with('genres')->get();
 
-            $allUserGenres = Genre::whereHas('movies', function ($query) use ($request) {
+            $allUserGenres = Genre::whereHas('titles', function ($query) use ($request) {
                 $query->whereHas('users', function ($q) use ($request) {
                     $q->where('users.id', $request->user()->id)
                         ->where('title_user.watched', false);
                 });
             })
-            ->withCount(['movies as movies_count' => function ($query) use ($request) {
+            ->withCount(['titles as movies_count' => function ($query) use ($request) {
                 $query->whereHas('users', function ($q) use ($request) {
                     $q->where('users.id', $request->user()->id)
                         ->where('title_user.watched', false);

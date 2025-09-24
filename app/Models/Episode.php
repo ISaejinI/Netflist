@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Episode extends Model
 {
     protected $fillable = [
+        'id_episode_tmdb',
         'title_id', 
         'season', 
         'episode_number',

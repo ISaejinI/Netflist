@@ -81,7 +81,7 @@
                         @foreach ($movie->directors as $director)
                             <div class="director-member">
                                 <div class="director-avatar">
-                                    <img src="{{ Storage::url($director->director_profile_path) }}" alt="{{ $director->name }}">
+                                    <img src="https://image.tmdb.org/t/p/w185{{ $director->director_profile_path }}" alt="{{ $director->name }}">
                                 </div>
                                 <span class="director-name">{{ $director->name }}</span>
                             </div>

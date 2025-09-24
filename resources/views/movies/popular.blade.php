@@ -14,9 +14,9 @@
             <section class="popular-movies-section">
                 <div class="popular-movies-grid">
                     @php
-                        $title = $type==='popular'?'title':'name';
-                        $date = $type==='popular'?'release_date':'first_air_date';
-                        $isMovie = $type==='popular'?true:false;
+                        $title = $type==='popularSerie'?'name':'title';
+                        $date = $type==='popularSerie'?'first_air_date':'release_date';
+                        $isMovie = $type==='popularSerie'?false:true;
                     @endphp
                     @foreach ($movies->results as $movie)
                         <x-movie-card 
@@ -28,14 +28,14 @@
                             rating="{{ $movie->vote_average }}"
                             overview="{{ $movie->overview }}"
                             genres=""
-                            isMovie={{ $isMovie }}
+                            isMovie="{{ $isMovie }}"
                         />
                     @endforeach
                 </div>
             </section>
             
             {{-- Pagination --}}
-            @if ($type === 'popular' && $movies->total_pages > 1)
+            @if ($type === 'popularMovie' && $movies->total_pages > 1)
                 <div class="popular-pagination">
                     <div class="popular-pagination-container">
                         <a href="{{ route('popularmovies', ['page' => 1]) }}" class="popular-pagination-btn">
