@@ -29,4 +29,8 @@ class Movie extends Model
     public function directors(): BelongsToMany {
         return $this->belongsToMany(Director::class);
     }
+
+    public function users(): BelongsToMany {
+        return $this->belongsToMany(User::class)->withPivot('watched', 'liked');
+    }
 }

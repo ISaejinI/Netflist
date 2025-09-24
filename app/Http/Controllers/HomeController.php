@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         if (Auth::check()) {
             $savedMovies = $request->user()->movies()->wherePivot('watched', false);
-    
+
             if ($request->has('genre')) {
                 $savedMovies = $savedMovies->whereHas('genres', function ($query) use ($request) {
                     $query->where('id', $request->input('genre'));
@@ -22,13 +22,30 @@ class HomeController extends Controller
                 $selectedGenre = Genre::find($request->input('genre'));
                 $selectedGenre = $selectedGenre->name;
             }
-    
+
             $savedMovies = $savedMovies->with('genres')->get();
-            $allGenres = Genre::withCount('movies')->get();
-    
-            return view('home', ['savedMovies' => $savedMovies, 'allGenres' => $allGenres, isset($selectedGenre) ? "'selectedGenre' => $selectedGenre" : '']);
-        }
-        else {
+            // $allGenres = Genre::withCount('movies')->get();
+
+            $allUserGenres = Genre::whereHas('movies', function ($query) use ($request) {
+                $query->whereHas('users', function ($q) use ($request) {
+                    $q->where('users.id', $request->user()->id)
+                        ->where('movie_user.watched', false); // <-- direct table pivot
+                });
+            })
+                ->withCount(['movies as movies_count' => function ($query) use ($request) {
+                    $query->whereHas('users', function ($q) use ($request) {
+                        $q->where('users.id', $request->user()->id)
+                            ->where('movie_user.watched', false); // <-- pareil ici
+                    });
+                }])
+                ->get();
+
+
+
+            // dd($allUserGenres);
+
+            return view('home', ['savedMovies' => $savedMovies, 'allGenres' => $allUserGenres, isset($selectedGenre) ? "'selectedGenre' => $selectedGenre" : '']);
+        } else {
             return view('home');
         }
     }
