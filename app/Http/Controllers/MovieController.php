@@ -71,7 +71,7 @@ class MovieController extends Controller
 
                 $newMovie = Title::firstOrCreate(
                     [
-                        'id_title_tmdb' => $request->input('movie_id'), 
+                        'id_title_tmdb' => $request->input('movie_id'),
                         'is_movie' => true,
                     ],
                     [
@@ -108,7 +108,7 @@ class MovieController extends Controller
                         $newActor = Actor::firstOrCreate(
                             ['id_actor_tmdb' => $actor->id],
                             [
-                                'name' => $actor->name, 
+                                'name' => $actor->name,
                                 'actor_profile_path' => $actor_profile_path
                             ]
                         );
@@ -123,7 +123,7 @@ class MovieController extends Controller
                             $newDirector = Director::firstOrCreate(
                                 ['id_director_tmdb' => $director->id],
                                 [
-                                    'name' => $director->name, 
+                                    'name' => $director->name,
                                     'director_profile_path' => $director->profile_path
                                 ]
                             );
@@ -211,7 +211,9 @@ class MovieController extends Controller
         if ($request->has('search') && $request->input('search') !== '') {
             $searchName = urlencode($request->input('search'));
             $searchResults = $this->getCurlDatas('search/multi?query=' . $searchName . '&include_adult=false&language=fr-FR&page=1');
-            // dd($searchResults);
+            $searchResults->results = array_filter($searchResults->results, function ($item) {
+                return isset($item->media_type) && ($item->media_type === 'tv' || $item->media_type === 'movie');
+            });
             return view('movies.popular', ['movies' => $searchResults, 'title' => 'Résultats de la recherche pour : <span class="highlight">' . $searchName . '</span>', 'type' => 'search']);
         } else {
             return back()->with('error', 'Recherche invalide');
@@ -249,19 +251,19 @@ class MovieController extends Controller
     {
         if (Auth::check()) {
             if ($request->has('serie_id') && $request->input('serie_id') > 0) {
-                $serie = $this->getCurlDatas('tv/'.$request->input('serie_id').'?language=fr-FR');
-                $cast = $this->getCurlDatas('tv/'.$request->input('serie_id').'/credits?language=fr-FR');
+                $serie = $this->getCurlDatas('tv/' . $request->input('serie_id') . '?language=fr-FR');
+                $cast = $this->getCurlDatas('tv/' . $request->input('serie_id') . '/credits?language=fr-FR');
                 // dd($serie);
 
                 $posterUrl = 'https://image.tmdb.org/t/p/w500' . $serie->poster_path;
                 $contents = file_get_contents($posterUrl);
                 $name = $request->input('serie_id') . 'poster.jpg';
-                Storage::disk('public')->put('posters/series/'.$name, $contents);
-                $path = 'posters/series/'.$name;
+                Storage::disk('public')->put('posters/series/' . $name, $contents);
+                $path = 'posters/series/' . $name;
 
                 $newSerie = Title::firstOrCreate(
                     [
-                        'id_title_tmdb' => $request->input('serie_id'), 
+                        'id_title_tmdb' => $request->input('serie_id'),
                         'is_movie' => false,
                     ],
                     [
@@ -297,7 +299,7 @@ class MovieController extends Controller
                         $newActor = Actor::firstOrCreate(
                             ['id_actor_tmdb' => $actor->id],
                             [
-                                'name' => $actor->name, 
+                                'name' => $actor->name,
                                 'actor_profile_path' => $actor_profile_path
                             ]
                         );
@@ -312,7 +314,7 @@ class MovieController extends Controller
                             $newDirector = Director::firstOrCreate(
                                 ['id_director_tmdb' => $director->id],
                                 [
-                                    'name' => $director->name, 
+                                    'name' => $director->name,
                                     'director_profile_path' => $director->profile_path
                                 ]
                             );
@@ -325,7 +327,7 @@ class MovieController extends Controller
                 $seasons = $serie->seasons;
                 foreach ($seasons as $season) {
                     $seasonNumber = $season->season_number;
-                    $seasonInformations = $this->getCurlDatas('tv/'.$request->input('serie_id').'/season/'.$seasonNumber.'?language=fr-FR');
+                    $seasonInformations = $this->getCurlDatas('tv/' . $request->input('serie_id') . '/season/' . $seasonNumber . '?language=fr-FR');
                     $seasonEpisodes = $seasonInformations->episodes;
                     // dd($seasonEpisodes);
                     foreach ($seasonEpisodes as $episode) {

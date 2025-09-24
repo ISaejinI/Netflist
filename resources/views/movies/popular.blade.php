@@ -13,24 +13,47 @@
             <!-- Movies Grid Section -->
             <section class="popular-movies-section">
                 <div class="popular-movies-grid">
-                    @php
-                        $title = $type==='popularSerie'?'name':'title';
-                        $date = $type==='popularSerie'?'first_air_date':'release_date';
-                        $isMovie = $type==='popularSerie'?false:true;
-                    @endphp
-                    @foreach ($movies->results as $movie)
-                        <x-movie-card 
-                            type="popular"
-                            poster="{{ $movie->poster_path }}" 
-                            title="{{ $movie->$title }}"
-                            id="{{ $movie->id }}"
-                            date="{{ $movie->$date }}"
-                            rating="{{ $movie->vote_average }}"
-                            overview="{{ $movie->overview }}"
-                            genres=""
-                            isMovie="{{ $isMovie }}"
-                        />
-                    @endforeach
+                    @if ($type==='search')
+                        @foreach ($movies->results as $movie)
+                            @php
+                                $title = $movie->media_type==='tv'?'name':'title';
+                                $date = $movie->media_type==='tv'?'first_air_date':'release_date';
+                                $isMovie = $movie->media_type==='tv'?false:true;
+                            @endphp
+                            <x-movie-card 
+                                type="popular"
+                                poster="{{ $movie->poster_path }}" 
+                                title="{{ $movie->$title }}"
+                                id="{{ $movie->id }}"
+                                date="{{ $movie->$date }}"
+                                rating="{{ $movie->vote_average }}"
+                                overview="{{ $movie->overview }}"
+                                genres=""
+                                isMovie="{{ $isMovie }}"
+                            />
+                        @endforeach
+                    
+                    @else 
+                        @php
+                            $title = $type==='popularSerie'?'name':'title';
+                            $date = $type==='popularSerie'?'first_air_date':'release_date';
+                            $isMovie = $type==='popularSerie'?false:true;
+                        @endphp
+
+                        @foreach ($movies->results as $movie)
+                            <x-movie-card 
+                                type="popular"
+                                poster="{{ $movie->poster_path }}" 
+                                title="{{ $movie->$title }}"
+                                id="{{ $movie->id }}"
+                                date="{{ $movie->$date }}"
+                                rating="{{ $movie->vote_average }}"
+                                overview="{{ $movie->overview }}"
+                                genres=""
+                                isMovie="{{ $isMovie }}"
+                            />
+                        @endforeach
+                    @endif
                 </div>
             </section>
             
