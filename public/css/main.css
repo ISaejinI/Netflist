@@ -3,6 +3,7 @@
   --rouge: #E50914;
   --noir: #141414;
   --blanc: #fff;
+  --blanc-clair: rgba(255, 255, 255, 0.8);
   --font-fam: "Inter", sans-serif;
   --radius-l: 18px;
   --radius-s: 8px;
@@ -554,21 +555,25 @@ header {
 }
 
 .movie-info {
-  padding: 1.5rem;
+  padding: 24px;
+  color: var(--blanc-clair);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .movie-title-home {
   font-size: 1.2rem;
   font-weight: 700;
-  margin: 0 0 1rem 0;
   color: var(--blanc);
   line-height: 1.3;
+  margin: unset;
 }
 
 .movie-genres {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .genre-tag-home {
@@ -863,7 +868,7 @@ header {
 }
 
 .info-item {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--blanc-clair);
   font-size: 0.95rem;
 }
 
@@ -1572,7 +1577,7 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--blanc-clair);
   font-weight: 500;
 }
 
@@ -1736,119 +1741,10 @@ header {
   gap: 2rem;
 }
 
-.popular-movie-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-l);
-  overflow: hidden;
-  transition: all var(--duration) var(--a-type);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  position: relative;
-}
-
-.popular-movie-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border-color: rgba(229, 9, 20, 0.3);
-}
-
-.popular-movie-poster {
-  position: relative;
-  aspect-ratio: 2/3;
-  overflow: hidden;
-}
-
-.popular-poster-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--duration) var(--a-type);
-}
-
-.popular-movie-card:hover .popular-poster-img {
-  transform: scale(1.05);
-}
-
-.popular-movie-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
-  opacity: 0;
-  transition: opacity var(--duration) var(--a-type);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.popular-movie-card:hover .popular-movie-overlay {
-  opacity: 1;
-}
-
-.popular-movie-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.popular-action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  text-decoration: none;
-  transition: all var(--duration) var(--a-type);
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-}
-
-.popular-action-btn.popular-primary {
-  background: var(--rouge);
-  color: var(--blanc);
-}
-
-.popular-action-btn.popular-primary:hover {
-  background: #f40612;
-  transform: scale(1.1);
-}
-
-.popular-action-btn.popular-secondary {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--blanc);
-  backdrop-filter: blur(10px);
-}
-
-.popular-action-btn.popular-secondary:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1);
-}
-
-.popular-action-form {
-  display: inline;
-}
-
-.popular-movie-info {
-  padding: 1.5rem;
-}
-
-.popular-movie-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 0 0 1rem 0;
-  color: var(--blanc);
-  line-height: 1.3;
-}
-
 .popular-movie-meta {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  margin-bottom: 1rem;
   flex-wrap: wrap;
 }
 
@@ -1856,7 +1752,6 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
   font-size: 0.9rem;
 }
@@ -1869,19 +1764,19 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #ffd700;
   font-weight: 600;
   font-size: 0.9rem;
 }
 
 .popular-movie-rating i {
   font-size: 1rem;
+  color: #ffd700;
 }
 
 .popular-movie-overview {
   font-size: 0.95rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
+  line-height: unset;
+  color: var(--blanc-clair);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -1950,20 +1845,6 @@ header {
   .popular-movies-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
-  }
-  
-  .popular-movie-info {
-    padding: 1rem;
-  }
-  
-  .popular-movie-title {
-    font-size: 1.1rem;
-  }
-  
-  .popular-movie-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
   }
   
   .popular-pagination-container {

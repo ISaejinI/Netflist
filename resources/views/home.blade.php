@@ -83,8 +83,16 @@
                     <!-- Movies Grid -->
                     <div class="movies-grid">
                         @foreach ($savedMovies as $movie)
-                            <x-movie-card poster="{{ $movie->poster_path }}" title="{{ $movie->title }}"
-                                id="{{ $movie->id }}" :genres="$movie->genres" />
+                            <x-movie-card 
+                                type="home"
+                                poster="{{ $movie->poster_path }}" 
+                                title="{{ $movie->title }}"
+                                id="{{ $movie->id }}" 
+                                :genres="$movie->genres"
+                                date="{{ $movie->release_date }}"
+                                rating="{{ $movie->rating }}"
+                                overview="{{ $movie->description }}"
+                            />
                         @endforeach
                     </div>
                 @endif

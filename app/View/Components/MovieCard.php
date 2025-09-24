@@ -12,13 +12,14 @@ class MovieCard extends Component
      * Create a new component instance.
      */
     public function __construct(
+        public string $type,
         public $poster,
         public string $title,
         public string $id,
-        public $genres,
-        // public $release_date,
-        // public $rating,
-        // public string $overview,
+        public $genres = null,
+        public $date,
+        public $rating,
+        public string $overview,
 
     )
     {

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
-    public function getPopular(Request $request)
+    public function getPopularMovies(Request $request)
     {
         $currentPage = $request->route('page', 1);
         if (is_numeric($currentPage) && $currentPage > 0) {
@@ -20,7 +20,7 @@ class MovieController extends Controller
             if (!isset($popularMovies->results) || count($popularMovies->results) === 0) {
                 return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
             }
-            return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films populaires <span class="highlight">populaires</span>', 'type' => 'popular']);
+            return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films <span class="highlight">populaires</span>', 'type' => 'popular']);
         } else {
             return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
         }
@@ -207,7 +207,7 @@ class MovieController extends Controller
             // dd($searchResults);
             return view('movies.popular', ['movies' => $searchResults, 'title' => 'Résultats de la recherche pour : <span class="highlight">' . $searchName . '</span>', 'type' => 'search']);
         } else {
-            return redirect()->route('home')->with('error', 'Recherche invalide');
+            return back()->with('error', 'Recherche invalide');
         }
     }
 
@@ -222,5 +222,20 @@ class MovieController extends Controller
         }
         $bestRatedMovies = (object) ['results' => $bestRatedMovies];
         return view('movies.bestRated', ['movies' => $bestRatedMovies, 'title' => 'Les films les mieux notés', 'type' => 'bestRated']);
+    }
+
+    public function getPopularTV(Request $request)
+    {
+        $currentPage = $request->route('page', 1);
+        if (is_numeric($currentPage) && $currentPage > 0) {
+            $popularSeries = $this->getCurlDatas("tv/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
+            if (!isset($popularSeries->results) || count($popularSeries->results) === 0) {
+                return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
+            }
+            dd($popularSeries);
+            return view('movies.popular', ['movies' => $popularSeries, 'title' => 'Les séries <span class="highlight">populaires</span>', 'type' => 'popular']);
+        } else {
+            return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
+        }
     }
 }
