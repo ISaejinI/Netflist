@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Director extends Model
 {
-    protected $fillable = ['tmdb_director_id', 'name', 'photo_path'];
+    protected $fillable = [
+        'id_director_tmdb', 
+        'name', 
+        'director_profile_path'
+    ];
 
-    public function movies()
+    public function titles()
     {
-        return $this->belongsToMany(Movie::class);
+        return $this->belongsToMany(Title::class);
     }
 }

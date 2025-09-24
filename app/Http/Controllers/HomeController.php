@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Genre;
-use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +12,7 @@ class HomeController extends Controller
     public function getHomeDatas(Request $request)
     {
         if (Auth::check()) {
-            $savedMovies = $request->user()->movies()->wherePivot('watched', false);
+            $savedMovies = $request->user()->titles()->wherePivot('watched', false);
 
             if ($request->has('genre') && $request->input('genre') != "") {
                 $savedMovies = $savedMovies->whereHas('genres', function ($query) use ($request) {
@@ -28,13 +27,13 @@ class HomeController extends Controller
             $allUserGenres = Genre::whereHas('movies', function ($query) use ($request) {
                 $query->whereHas('users', function ($q) use ($request) {
                     $q->where('users.id', $request->user()->id)
-                        ->where('movie_user.watched', false);
+                        ->where('title_user.watched', false);
                 });
             })
             ->withCount(['movies as movies_count' => function ($query) use ($request) {
                 $query->whereHas('users', function ($q) use ($request) {
                     $q->where('users.id', $request->user()->id)
-                        ->where('movie_user.watched', false);
+                        ->where('title_user.watched', false);
                 });
             }])->get();
 

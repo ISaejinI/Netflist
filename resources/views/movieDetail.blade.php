@@ -19,7 +19,7 @@
                 <!-- En-tête avec titre et métadonnées -->
                 <div class="movie-header">
                     <div class="title-row">
-                        <h1 class="movie-title">{{ $movie->title }}</h1>
+                        <h1 class="movie-title">{{ $movie->name }}</h1>
                         <span class="release-year">{{ date('Y', strtotime($movie->release_date)) }}</span>
                     </div>
 
@@ -42,7 +42,7 @@
                 <!-- Section Summary -->
                 <div class="summary-section">
                     <h2 class="section-title">SUMMARY</h2>
-                    <p class="movie-description">{{ $movie->description }}</p>
+                    <p class="movie-description">{{ $movie->overview }}</p>
                     <div class="additional-info">
                         <div class="info-item">
                             <strong>Pays d'origine :</strong> {{ $movie->origin_country }}
@@ -61,7 +61,7 @@
                         @foreach ($movie->actors->take(4) as $actor)
                             <div class="cast-member">
                                 <div class="cast-avatar">
-                                    <img src="{{ Storage::url($actor->avatar_path) }}" alt="{{ $actor->name }}">
+                                    <img src="{{ Storage::url($actor->actor_profile_path) }}" alt="{{ $actor->name }}">
                                 </div>
                                 <span class="cast-name">{{ $actor->name }}</span>
                                 @if($actor->pivot->character)
@@ -81,7 +81,7 @@
                         @foreach ($movie->directors as $director)
                             <div class="director-member">
                                 <div class="director-avatar">
-                                    <img src="{{ Storage::url($director->photo_path) }}" alt="{{ $director->name }}">
+                                    <img src="{{ Storage::url($director->director_profile_path) }}" alt="{{ $director->name }}">
                                 </div>
                                 <span class="director-name">{{ $director->name }}</span>
                             </div>

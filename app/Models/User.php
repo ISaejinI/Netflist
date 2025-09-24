@@ -24,8 +24,8 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function movies(): BelongsToMany {
-        return $this->belongsToMany(Movie::class)->withPivot('watched', 'liked')->withTimestamps();
+    public function titles(): BelongsToMany {
+        return $this->belongsToMany(Title::class)->withPivot('watched', 'liked')->withTimestamps();
     }
 
     /**

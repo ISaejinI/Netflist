@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Actor extends Model
 {
-    protected $fillable = ['tmdb_actor_id', 'name', 'avatar_path'];
+    protected $fillable = [
+        'id_actor_tmdb', 
+        'name', 
+        'actor_profile_path'
+    ];
 
-    public function movies()
+    public function titles()
     {
-        return $this->belongsToMany(Movie::class)->withPivot('character');
+        return $this->belongsToMany(Title::class)->withPivot('character');
     }
 }

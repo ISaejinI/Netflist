@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Movie extends Model
+class Title extends Model
 {
     protected $fillable = [
-        'movie_id', 
-        'title', 
+        'id_title_tmdb', 
+        'is_movie', 
+        'name',
+        'tagline',
         'poster_path',
-        'description',
+        'overview',
         'release_date',
         'rating',
         'origin_country',
-        'watched'
+        'duration',
     ];
 
     public function genres(): BelongsToMany {
@@ -32,5 +34,9 @@ class Movie extends Model
 
     public function users(): BelongsToMany {
         return $this->belongsToMany(User::class)->withPivot('watched', 'liked');
+    }
+
+    public function episodes(): BelongsToMany {
+        return $this->belongsToMany(Episode::class);
     }
 }

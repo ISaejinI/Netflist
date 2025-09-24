@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Actor;
 use App\Models\Director;
 use App\Models\Genre;
-use App\Models\Movie;
+use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -61,22 +61,27 @@ class MovieController extends Controller
             if ($request->has('movie_id') && $request->input('movie_id') > 0) {
                 $movie = $this->getCurlDatas('movie/' . $request->input('movie_id') . '?language=fr-FR');
                 $cast = $this->getCurlDatas('movie/' . $request->input('movie_id') . '/credits?language=fr-FR');
-                // dd($cast);
+                // dd($movie);
                 $posterUrl = 'https://image.tmdb.org/t/p/w500' . $movie->poster_path;
                 $contents = file_get_contents($posterUrl);
                 $name = $request->input('movie_id') . 'poster.jpg';
-                Storage::disk('public')->put('posters/' . $name, $contents);
-                $path = 'posters/' . $name;
+                Storage::disk('public')->put('posters/movies/' . $name, $contents);
+                $path = 'posters/movies/' . $name;
 
-                $newMovie = Movie::firstOrCreate(
-                    ['movie_id' => $request->input('movie_id')],
+                $newMovie = Title::firstOrCreate(
                     [
-                        'title' => $movie->title,
+                        'id_title_tmdb' => $request->input('movie_id'), 
+                        'is_movie' => true,
+                    ],
+                    [
+                        'name' => $movie->title,
+                        'tagline' => $movie->tagline,
                         'poster_path' => $path,
-                        'description' => $movie->overview,
+                        'overview' => $movie->overview,
                         'release_date' => $movie->release_date,
                         'rating' => $movie->vote_average,
-                        'origin_country' => isset($movie->origin_country[0]) ? $movie->origin_country[0] : null
+                        'origin_country' => isset($movie->origin_country[0]) ? $movie->origin_country[0] : null,
+                        'duration' => $movie->runtime,
                     ]
                 );
 
@@ -100,8 +105,11 @@ class MovieController extends Controller
                         Storage::disk('public')->put('actors/' . $actorProfileName, $contents);
                         $actor_profile_path = 'actors/' . $actorProfileName;
                         $newActor = Actor::firstOrCreate(
-                            ['tmdb_actor_id' => $actor->id],
-                            ['name' => $actor->name, 'avatar_path' => $actor_profile_path]
+                            ['id_actor_tmdb' => $actor->id],
+                            [
+                                'name' => $actor->name, 
+                                'actor_profile_path' => $actor_profile_path
+                            ]
                         );
                         $newMovie->actors()->attach($newActor->id, ['character' => $actor->character]);
                     }
@@ -117,8 +125,11 @@ class MovieController extends Controller
                             Storage::disk('public')->put('directors/' . $directorProfileName, $contents);
                             $director_profile_path = 'directors/' . $directorProfileName;
                             $newDirector = Director::firstOrCreate(
-                                ['tmdb_director_id' => $director->id],
-                                ['name' => $director->name, 'photo_path' => $director_profile_path]
+                                ['id_director_tmdb' => $director->id],
+                                [
+                                    'name' => $director->name, 
+                                    'director_profile_path' => $director_profile_path
+                                ]
                             );
                             $newMovie->directors()->attach($newDirector->id);
                             break;
@@ -126,7 +137,7 @@ class MovieController extends Controller
                     }
                 }
 
-                $request->user()->movies()->attach($newMovie->id, ['watched' => false, 'liked' => false]);
+                $request->user()->titles()->attach($newMovie->id, ['watched' => false, 'liked' => false]);
 
                 return back()->with('success', 'Film ajouté');
             } else {
@@ -140,7 +151,7 @@ class MovieController extends Controller
     {
         if ($request->user()) {
             if ($request->has('movie_id') && $request->input('movie_id') > 0) {
-                $movie = $request->user()->movies()->where('movies.id', $request->input('movie_id'))->first();
+                $movie = $request->user()->titles()->where('titles.id', $request->input('movie_id'))->first();
                 if ($movie) {
                     $movie->pivot->watched = true;
                     $movie->pivot->save();
@@ -159,9 +170,9 @@ class MovieController extends Controller
         if (Auth::check()) {
             if ($request->has('movie_id') && $request->input('movie_id') > 0) {
                 $user = Auth::user();
-                $movie = $user->movies()->where('movies.id', $request->input('movie_id'))->first();
+                $movie = $user->titles()->where('titles.id', $request->input('movie_id'))->first();
                 if ($movie) {
-                    $user->movies()->detach($movie->id);
+                    $user->titles()->detach($movie->id);
 
                     $usersCount = $movie->users()->count();
                     if ($usersCount === 0) {
@@ -195,7 +206,7 @@ class MovieController extends Controller
 
     public function index()
     {
-        $savedMovies = Movie::all()->load('genres');
+        $savedMovies = Title::all()->load('genres');
         return view('index', ['savedMovies' => $savedMovies]);
     }
 
@@ -251,7 +262,7 @@ class MovieController extends Controller
         //         Storage::disk('public')->put('posters/' . $name, $contents);
         //         $path = 'posters/' . $name;
 
-        //         $newMovie = Movie::firstOrCreate(
+        //         $newMovie = Title::firstOrCreate(
         //             ['serie_id' => $request->input('serie_id')],
         //             [
         //                 'title' => $movie->title,
