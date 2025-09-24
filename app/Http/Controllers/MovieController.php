@@ -232,8 +232,7 @@ class MovieController extends Controller
             if (!isset($popularSeries->results) || count($popularSeries->results) === 0) {
                 return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
             }
-            dd($popularSeries);
-            return view('movies.popular', ['movies' => $popularSeries, 'title' => 'Les séries <span class="highlight">populaires</span>', 'type' => 'popular']);
+            return view('movies.popular', ['movies' => $popularSeries, 'title' => 'Les séries <span class="highlight">populaires</span>', 'type' => 'populartv']);
         } else {
             return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
         }

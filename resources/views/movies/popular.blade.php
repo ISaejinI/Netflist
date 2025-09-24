@@ -13,13 +13,18 @@
             <!-- Movies Grid Section -->
             <section class="popular-movies-section">
                 <div class="popular-movies-grid">
+                    @php
+                        $title = $type==='popular'?'title':'name';
+                        $date = $type==='popular'?'release_date':'first_air_date';
+
+                    @endphp
                     @foreach ($movies->results as $movie)
                         <x-movie-card 
                             type="popular"
                             poster="{{ $movie->poster_path }}" 
-                            title="{{ $movie->title }}"
+                            title="{{ $movie->$title }}"
                             id="{{ $movie->id }}"
-                            date="{{ $movie->release_date }}"
+                            date="{{ $movie->$date }}"
                             rating="{{ $movie->vote_average }}"
                             overview="{{ $movie->overview }}"
                             genres=""
