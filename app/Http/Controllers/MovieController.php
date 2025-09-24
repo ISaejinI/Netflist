@@ -7,6 +7,7 @@ use App\Models\Director;
 use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
@@ -143,9 +144,9 @@ class MovieController extends Controller
                 if ($movie) {
                     $movie->pivot->watched = true;
                     $movie->pivot->save();
-                    return redirect()->route('home')->with('success', 'Film marqué comme vu');
+                    return back()->with('success', 'Film marqué comme vu');
                 } else {
-                    return redirect()->route('home')->with('error', 'Film non trouvé');
+                    return back()->with('error', 'Film non trouvé');
                 }
             }
             return back()->with('error', 'Film invalide');
@@ -155,18 +156,40 @@ class MovieController extends Controller
 
     public function deleteMovie(Request $request)
     {
-        if ($request->has('movie_id') && $request->input('movie_id') > 0) {
-            $movie = Movie::find($request->input('movie_id'));
-            if ($movie) {
-                // Supprimer l'affiche du stockage
-                if ($movie->poster_path && Storage::disk('public')->exists($movie->poster_path)) {
-                    Storage::disk('public')->delete($movie->poster_path);
+        if (Auth::check()) {
+            if ($request->has('movie_id') && $request->input('movie_id') > 0) {
+                $user = Auth::user();
+                $movie = $user->movies()->where('movies.id', $request->input('movie_id'))->first();
+                if ($movie) {
+                    $user->movies()->detach($movie->id);
+
+                    $usersCount = $movie->users()->count();
+                    if ($usersCount === 0) {
+                        if ($movie->poster_path && Storage::disk('public')->exists($movie->poster_path)) {
+                            Storage::disk('public')->delete($movie->poster_path);
+                        }
+
+                        foreach ($movie->genres as $genre) {
+                            $movie->genres()->detach($genre->id);
+                            if ($genre->movies()->count() === 0) {
+                                $genre->delete();
+                            }
+                        }
+
+                        $movie->actors()->detach();
+                        $movie->directors()->detach();
+
+                        $movie->delete();
+                    }
+                    return back()->with('success', 'Film supprimé');
+                } else {
+                    return back()->with('error', 'Film non trouvé');
                 }
-                $movie->delete();
-                return redirect()->route('savedmovies')->with('success', 'Film supprimé');
             } else {
-                return redirect()->route('savedmovies')->with('error', 'Film non trouvé');
+                return back()->with('error', 'Film non trouvé');
             }
+        } else {
+            return back()->with('error', 'Il faut être connecté pour supprimer un film');
         }
     }
 
