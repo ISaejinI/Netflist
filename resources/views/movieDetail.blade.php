@@ -105,16 +105,78 @@
             </div>
         </div>
 
-        <!-- Affichage des épisodes -->
-        @if ($movie->is_movie == false)
-            <h2 class="section-title">Épisodes</h2>
-            @foreach ($movie->episodes as $episode)
-                <div>
-                    <p>Épisode {{ $episode->episode_number }} : {{ $episode->episode_name }}</p>
-                    <p>{{ $episode->episode_duration }}</p>
-                    <p>{{ $episode->episode_overview }}</p>
+        <!-- Affichage des épisodes par saison -->
+        @if ($movie->is_movie == false && $movie->episodes->count() > 0)
+            <div class="episodes-section">
+                <h2 class="section-title">Épisodes</h2>
+                <div class="seasons-container">
+                    @php
+                        $seasons = $movie->episodes->groupBy('season')->sortKeys();
+                    @endphp
+                    
+                    @foreach ($seasons as $seasonNumber => $seasonEpisodes)
+                        <div class="season-dropdown" data-season="{{ $seasonNumber }}">
+                            <div class="season-header" onclick="toggleSeason({{ $seasonNumber }})">
+                                <div class="season-title">
+                                    <div class="season-number">{{ $seasonNumber }}</div>
+                                    <div class="season-info">
+                                        <h3 class="season-name">Saison {{ $seasonNumber }}</h3>
+                                        <span class="season-episodes-count">{{ $seasonEpisodes->count() }} épisode{{ $seasonEpisodes->count() > 1 ? 's' : '' }}</span>
+                                    </div>
+                                </div>
+                                <div class="season-toggle">
+                                    <i class='bx bx-chevron-down'></i>
+                                </div>
+                            </div>
+                            
+                            <div class="episodes-list">
+                                @foreach ($seasonEpisodes->sortBy('episode_number') as $episode)
+                                    <div class="episode-item">
+                                        <div class="episode-number">{{ $episode->episode_number }}</div>
+                                        <div class="episode-content">
+                                            <h4 class="episode-title">{{ $episode->episode_name }}</h4>
+                                            @if($episode->episode_overview)
+                                                <p class="episode-overview">{{ $episode->episode_overview }}</p>
+                                            @endif
+                                            <div class="episode-meta">
+                                                @if($episode->episode_duration)
+                                                    <div class="episode-duration">
+                                                        <i class='bx bx-time'></i>
+                                                        <span>{{ $episode->episode_duration }} min</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="episode-actions">
+                                            <button class="episode-action-btn" title="Marquer comme vu">
+                                                <i class='bx bx-check'></i>
+                                            </button>
+                                            <button class="episode-action-btn" title="Ajouter aux favoris">
+                                                <i class='bx bx-heart'></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
+            </div>
         @endif
     </div>
+
+    <script>
+        function toggleSeason(seasonNumber) {
+            const dropdown = document.querySelector(`[data-season="${seasonNumber}"]`);
+            dropdown.classList.toggle('active');
+        }
+
+        // Optionnel : Ouvrir la première saison par défaut
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstSeason = document.querySelector('.season-dropdown');
+            if (firstSeason) {
+                firstSeason.classList.add('active');
+            }
+        });
+    </script>
 @endsection

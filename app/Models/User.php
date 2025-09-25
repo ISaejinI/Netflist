@@ -28,6 +28,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Title::class)->withPivot('watched', 'liked')->withTimestamps();
     }
 
+    public function episodes(): BelongsToMany {
+        return $this->belongsToMany(Episode::class)->withPivot('watched')->withTimestamps();
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

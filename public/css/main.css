@@ -2,8 +2,10 @@
 :root {
   --rouge: #E50914;
   --noir: #141414;
+  --noir-fonce: #000a;
   --blanc: #fff;
   --blanc-clair: rgba(255, 255, 255, 0.8);
+  --rouge-fonce: rgba(229, 9, 20, 0.3);
   --font-fam: "Inter", sans-serif;
   --radius-l: 18px;
   --radius-s: 8px;
@@ -56,6 +58,10 @@ header {
   display: flex;
   align-items: center;
   gap: 24px;
+
+  a {
+    transition: all var(--duration) var(--a-type);
+  }
 
   a:hover {
     color: var(--rouge);
@@ -114,7 +120,7 @@ header {
     right: 0;
     width: var(--btn-width);
     font-weight: bold;
-    background: var(--color-brand);
+    background: var(--rouge);
     border-radius: 0 var(--rad) var(--rad) 0;
 
     i {
@@ -185,7 +191,7 @@ header {
 .cardContainer:hover {
   .movieInfo {
     bottom: 0;
-    background-color: #000a;
+    background-color: var(--noir-fonce);
   }
 
   img {
@@ -323,7 +329,7 @@ header {
 .btn-primary {
   background: var(--rouge);
   color: var(--blanc);
-  box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+  box-shadow: 0 4px 15px var(--rouge-fonce);
 }
 
 .btn-primary:hover {
@@ -471,7 +477,7 @@ header {
 .movie-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border-color: rgba(229, 9, 20, 0.3);
+  border-color: var(--rouge-fonce);
 }
 
 .movie-poster {
@@ -580,7 +586,7 @@ header {
   padding: 0.25rem 0.75rem;
   background: rgba(229, 9, 20, 0.2);
   color: var(--rouge);
-  border: 1px solid rgba(229, 9, 20, 0.3);
+  border: 1px solid var(--rouge-fonce);
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 500;
@@ -898,7 +904,7 @@ header {
   height: 80px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid rgba(229, 9, 20, 0.3);
+  border: 3px solid var(--rouge-fonce);
   transition: all var(--duration) var(--a-type);
 }
 
@@ -1153,7 +1159,7 @@ header {
 .index-movie-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border-color: rgba(229, 9, 20, 0.3);
+  border-color: var(--rouge-fonce);
 }
 
 .index-movie-poster {
@@ -1258,7 +1264,7 @@ header {
   padding: 0.25rem 0.75rem;
   background: rgba(229, 9, 20, 0.2);
   color: var(--rouge);
-  border: 1px solid rgba(229, 9, 20, 0.3);
+  border: 1px solid var(--rouge-fonce);
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 500;
@@ -1435,7 +1441,7 @@ header {
 .rated-movie-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  border-color: rgba(229, 9, 20, 0.3);
+  border-color: var(--rouge-fonce);
 }
 
 .rated-rank-badge {
@@ -1877,5 +1883,257 @@ header {
     width: 30px;
     height: 30px;
     font-size: 0.8rem;
+  }
+}
+
+/* ------EPISODES DROPDOWN SECTION------ */
+.episodes-section {
+  margin-top: 3rem;
+  padding: 2rem 0;
+}
+
+.seasons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.season-dropdown {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all var(--duration) var(--a-type);
+}
+
+.season-dropdown:hover {
+  border-color: var(--rouge-fonce);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.season-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  transition: all var(--duration) var(--a-type);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.season-header:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.season-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.season-number {
+  background: var(--rouge);
+  color: var(--blanc);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.season-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.season-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--blanc);
+  margin: 0;
+}
+
+.season-episodes-count {
+  font-size: 0.9rem;
+  color: var(--blanc-clair);
+}
+
+.season-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--blanc);
+  transition: all var(--duration) var(--a-type);
+}
+
+.season-toggle i {
+  font-size: 1.5rem;
+  transition: transform var(--duration) var(--a-type);
+}
+
+.season-dropdown.active .season-toggle i {
+  transform: rotate(180deg);
+}
+
+.episodes-list {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--duration) var(--a-type);
+}
+
+.season-dropdown.active .episodes-list {
+  max-height: 2000px;
+}
+
+.episode-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all var(--duration) var(--a-type);
+}
+
+.episode-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.episode-number {
+  background: rgba(229, 9, 20, 0.2);
+  color: var(--rouge);
+  border: 1px solid var(--rouge-fonce);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.episode-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.episode-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--blanc);
+  margin: 0;
+}
+
+.episode-overview {
+  font-size: 0.95rem;
+  color: var(--blanc-clair);
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.episode-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.episode-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--blanc-clair);
+  font-size: 0.9rem;
+}
+
+.episode-duration i {
+  color: var(--rouge);
+}
+
+.episode-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.episode-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--blanc);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all var(--duration) var(--a-type);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.episode-action-btn:hover {
+  background: var(--rouge);
+  border-color: var(--rouge);
+  transform: scale(1.1);
+}
+
+/* ------RESPONSIVE EPISODES------ */
+@media (max-width: 768px) {
+  .episodes-section {
+    margin-top: 2rem;
+    padding: 1rem 0;
+  }
+  
+  .season-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .season-number {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .season-name {
+    font-size: 1.1rem;
+  }
+  
+  .episode-item {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .episode-number {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  
+  .episode-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .episode-actions {
+    align-self: flex-end;
   }
 }
