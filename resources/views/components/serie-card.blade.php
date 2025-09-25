@@ -1,7 +1,9 @@
 <div class="movie-card">
     <div class="movie-poster">
-        <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy">
-        
+        <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy" class="{{ $watched==1?'seen':'' }}">
+        @if ($watched == 1)
+            <span class="seenBox"><i class='bxr bx-eye-alt'></i></span>
+        @endif
         @php
             // dd($episodes);
         @endphp

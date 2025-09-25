@@ -167,6 +167,7 @@ class MovieController extends Controller
             if ($request->has('movie_id') && $request->input('movie_id') > 0) {
                 $user = Auth::user();
                 $movie = $user->titles()->where('titles.id', $request->input('movie_id'))->first();
+                // dd($movie);
                 if ($movie) {
                     $user->titles()->detach($movie->id);
 
@@ -185,6 +186,10 @@ class MovieController extends Controller
 
                         $movie->actors()->detach();
                         $movie->directors()->detach();
+
+                        if ($movie->is_movie == false) {
+                            $movie->episodes()->delete();
+                        }
 
                         $movie->delete();
                     }

@@ -95,7 +95,7 @@
                                         date="{{ $movie->release_date }}"
                                         rating="{{ $movie->rating }}"
                                         overview="{{ $movie->overview }}"
-                                        watched="{{ $movie->pivot->watched }}" {{-- problèmes --}}
+                                        watched="{{ $movie->pivot->watched }}"
                                     />
                                 @endforeach
                             </div>
@@ -118,6 +118,7 @@
                                         rating="{{ $serie->rating }}"
                                         overview="{{ $serie->overview }}"
                                         episodes="{{ $serie->episodes }}"
+                                        watched="{{ $serie->pivot->watched }}"
                                     />
                                 @endforeach
                             </div>
