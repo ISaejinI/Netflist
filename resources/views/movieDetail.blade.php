@@ -7,16 +7,17 @@
                     <img src="{{ Storage::url($movie->poster_path) }}" alt="{{ $movie->title }}" class="movie-poster-img">
                     <div class="poster-overlay">
                         <div class="rating-badge">
-                            <i class='bx bx-star'></i>
-                            <span>{{ $movie->rating }}/10</span>
+                            <i class='bxr  bxs-heart'></i> 
+                            @php
+                                $note = $movie->rating * 10;
+                            @endphp
+                            <span>{{ $note }}%</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Colonne de droite - Informations du film -->
             <div class="movie-info-section">
-                <!-- En-tête avec titre et métadonnées -->
                 <div class="movie-header">
                     <div class="title-row">
                         <h1 class="movie-title">{{ $movie->name }}</h1>
@@ -32,8 +33,11 @@
 
                     <div class="rating-section">
                         <div class="stars">
-                            @for($i = 1; $i <= 1; $i++)
-                                <i class='bx bx-star {{ $i <= ($movie->rating / 2) ? 'style="fill:var(--blanc)"' : '' }}'></i>
+                            @php
+                                $rating = intval($movie->rating)/2;
+                            @endphp
+                            @for($i = 1; $i <= 5; $i++)
+                                <i class='bx {{ $i <= $rating ? 'bxs-star' : 'bx-star' }}'></i>
                             @endfor
                         </div>
                         <span class="rating-score">{{ $movie->rating }}/10</span>

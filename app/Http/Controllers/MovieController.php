@@ -324,6 +324,8 @@ class MovieController extends Controller
                     }
                 }
 
+                Auth::user()->titles()->attach($newSerie->id, ['watched' => false, 'liked' => false]);
+
                 $seasons = $serie->seasons;
                 foreach ($seasons as $season) {
                     $seasonNumber = $season->season_number;
@@ -342,10 +344,9 @@ class MovieController extends Controller
                                 'episode_duration' => $episode->runtime,
                             ]
                         );
+                        Auth::user()->episodes()->attach($newEpisode->id, ['watched' => false]);
                     }
                 }
-
-                Auth::user()->titles()->attach($newSerie->id, ['watched' => false, 'liked' => false]);
 
                 return back()->with('success', 'Série ajoutée');
             } else {
