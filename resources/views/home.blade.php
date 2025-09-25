@@ -44,7 +44,7 @@
             @endguest
 
             @auth
-                @if (!$savedMovies->count() > 0)
+                @if (!$movies->count() > 0 && !$series->count() > 0)
                     <div class="empty-state">
                         <div class="empty-icon">
                             <i class='bx bx-movie'></i>
@@ -81,19 +81,48 @@
                     </div>
 
                     <!-- Movies Grid -->
-                    <div class="movies-grid">
-                        @foreach ($savedMovies as $movie)
-                            <x-movie-card 
-                                type="home"
-                                poster="{{ $movie->poster_path }}" 
-                                title="{{ $movie->title }}"
-                                id="{{ $movie->id }}" 
-                                :genres="$movie->genres"
-                                date="{{ $movie->release_date }}"
-                                rating="{{ $movie->rating }}"
-                                overview="{{ $movie->description }}"
-                            />
-                        @endforeach
+                    <div>
+                        <h3>Vos <span class="highlight">Films</span></h3>
+                        @if ($movies->count() > 0)
+                            <div class="movies-grid">
+                                @foreach ($movies as $movie)
+                                    <x-movie-card 
+                                        type="home"
+                                        poster="{{ $movie->poster_path }}" 
+                                        title="{{ $movie->name }}"
+                                        id="{{ $movie->id }}" 
+                                        :genres="$movie->genres"
+                                        date="{{ $movie->release_date }}"
+                                        rating="{{ $movie->rating }}"
+                                        overview="{{ $movie->overview }}"
+                                    />
+                                @endforeach
+                            </div>
+                        @else
+                            <p>Il n'y a pas de films dans votre watchlist</p>
+                        @endif
+                    </div>
+                    <div>
+                        <h3>Vos <span class="highlight">Séries</span></h3>
+                        @if ($series->count() > 0)
+                            <div class="movies-grid">
+                                @foreach ($series as $serie)
+                                    <x-serie-card 
+                                        type="home"
+                                        poster="{{ $serie->poster_path }}" 
+                                        title="{{ $serie->name }}"
+                                        id="{{ $serie->id }}" 
+                                        :genres="$serie->genres"
+                                        date="{{ $serie->release_date }}"
+                                        rating="{{ $serie->rating }}"
+                                        overview="{{ $serie->overview }}"
+                                        episodes="{{ $serie->episodes }}"
+                                    />
+                                @endforeach
+                            </div>
+                        @else
+                            <p>Il n'y a pas de séries dans votre watchlist</p>
+                        @endif
                     </div>
                 @endif
             @endauth

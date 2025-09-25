@@ -60,22 +60,22 @@
 
                 <!-- Section Cast -->
                 @if($movie->actors->count() > 0)
-                <div class="cast-section">
-                    <h2 class="section-title">Acteurs</h2>
-                    <div class="cast-grid">
-                        @foreach ($movie->actors->take(4) as $actor)
-                            <div class="cast-member">
-                                <div class="cast-avatar">
-                                    <img src="{{ Storage::url($actor->actor_profile_path) }}" alt="{{ $actor->name }}">
+                    <div class="cast-section">
+                        <h2 class="section-title">Acteurs</h2>
+                        <div class="cast-grid">
+                            @foreach ($movie->actors->take(4) as $actor)
+                                <div class="cast-member">
+                                    <div class="cast-avatar">
+                                        <img src="{{ Storage::url($actor->actor_profile_path) }}" alt="{{ $actor->name }}">
+                                    </div>
+                                    <span class="cast-name">{{ $actor->name }}</span>
+                                    @if($actor->pivot->character)
+                                        <span class="cast-character">{{ $actor->pivot->character }}</span>
+                                    @endif
                                 </div>
-                                <span class="cast-name">{{ $actor->name }}</span>
-                                @if($actor->pivot->character)
-                                    <span class="cast-character">{{ $actor->pivot->character }}</span>
-                                @endif
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 <!-- Section Directors -->
@@ -96,16 +96,18 @@
                 @endif
 
                 <!-- Boutons d'action -->
-                <div class="action-buttons">
-                    <form action="{{ route('watched') }}" method="post" class="action-form">
-                        @csrf
-                        <input type="hidden" name="movie_id" value="{{ $movie->id }}">
-                        <button type="submit" class="btn-watch-trailer">
-                            <i class='bx bx-play'></i>
-                            Marquer comme vu
-                        </button>
-                    </form>
-                </div>
+                @if ($movie->is_movie == true)
+                    <div class="action-buttons">
+                        <form action="{{ route('watched') }}" method="post" class="action-form">
+                            @csrf
+                            <input type="hidden" name="movie_id" value="{{ $movie->id }}">
+                            <button type="submit" class="btn-watch-trailer">
+                                <i class='bx bx-play'></i>
+                                Marquer comme vu
+                            </button>
+                        </form>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -152,9 +154,16 @@
                                             </div>
                                         </div>
                                         <div class="episode-actions">
-                                            <button class="episode-action-btn" title="Marquer comme vu">
+                                            <form action="{{ route('watchepisode') }}" method="post" class="action-form">
+                                                @csrf
+                                                <input type="hidden" name="episode_id" value="{{ $episode->id }}">
+                                                <button type="submit" class="episode-action-btn" title="Marquer comme vu">
+                                                    <i class='bx bx-check'></i>
+                                                </button>
+                                            </form>
+                                            {{-- <button class="episode-action-btn" title="Marquer comme vu">
                                                 <i class='bx bx-check'></i>
-                                            </button>
+                                            </button> --}}
                                             <button class="episode-action-btn" title="Ajouter aux favoris">
                                                 <i class='bx bx-heart'></i>
                                             </button>

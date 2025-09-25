@@ -18,10 +18,14 @@ class SinglemovieController extends Controller
     {
         if (Auth::check()) {
             if ($request->has('episode_id') && $request->input('episode_id') > 0) {
-                // Récupérer l'id de l'épisode 
-                // Vérifier si la ligne existe
-                // Lier la ligne pivot à un user et à un épisode
-                // Marquer watched comme true
+                $episode = Auth::user()->episodes()->where('episodes.id', $request->input('episode_id'))->first();
+                if ($episode) {
+                    $episode->pivot->watched = true;
+                    $episode->pivot->save();
+                    return back()->with('success', 'Épisode marqué comme vu');
+                } else {
+                    return back()->with('error', 'Épisode non trouvé');
+                }
             }
         }
         else {

@@ -37,7 +37,10 @@ class HomeController extends Controller
                 });
             }])->get();
 
-            return view('home', ['savedMovies' => $savedMovies, 'allGenres' => $allUserGenres, isset($selectedGenre) ? "'selectedGenre' => $selectedGenre" : '']);
+            $movies = $savedMovies->where('is_movie', true);
+            $series = $savedMovies->where('is_movie', false);
+
+            return view('home', ['movies' => $movies, 'series' => $series, 'allGenres' => $allUserGenres, isset($selectedGenre) ? "'selectedGenre' => $selectedGenre" : '']);
         } else {
             return view('home');
         }

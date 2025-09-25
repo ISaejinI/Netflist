@@ -21,7 +21,10 @@ Route::controller(MovieController::class)->group(function() {
     Route::post('/storeSerie', 'storeSerie')->name('storeserie');
 });
 
-Route::get('/movie/{id}', [SinglemovieController::class, 'movieDetail'])->name('moviedetail');
+Route::controller(SinglemovieController::class)->group(function() {
+    Route::get('/movie/{id}', 'movieDetail')->name('moviedetail');
+    Route::post('/markEpisodeAsWatched', 'markEpisodeAsWatched')->name('watchepisode');
+});
 
 Route::controller(UserController::class)->group(function() {
     Route::get('/login', 'loginPage')->name('login');
