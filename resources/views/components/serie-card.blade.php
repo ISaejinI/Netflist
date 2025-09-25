@@ -1,10 +1,11 @@
 <div class="movie-card">
     <div class="movie-poster">
-        @if ($type == 'home')
-            <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy">
-        @elseif ($type == 'popular')
-            <img src="{{ 'https://media.themoviedb.org/t/p/w500' . $poster }}" alt="{{ $title }}">
-        @endif
+        <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy">
+        
+        @php
+            // dd($episodes);
+        @endphp
+
         <div class="movie-overlay">
             <div class="movie-actions">
                 @if ($type == 'home')

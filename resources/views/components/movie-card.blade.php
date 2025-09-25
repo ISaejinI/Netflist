@@ -1,9 +1,12 @@
 <div class="movie-card">
     <div class="movie-poster">
         @if ($type == 'home')
-            <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy">
+            <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy" class="{{ $watched==1?'seen':'' }}">
         @elseif ($type == 'popular')
             <img src="{{ 'https://media.themoviedb.org/t/p/w500' . $poster }}" alt="{{ $title }}">
+        @endif
+        @if ($watched == 1)
+            <span class="seenBox"><i class='bxr bx-eye-alt'></i></span>
         @endif
         <div class="movie-overlay">
             <div class="movie-actions">

@@ -95,6 +95,7 @@
                                         date="{{ $movie->release_date }}"
                                         rating="{{ $movie->rating }}"
                                         overview="{{ $movie->overview }}"
+                                        watched="{{ $movie->pivot->watched }}" {{-- problèmes --}}
                                     />
                                 @endforeach
                             </div>

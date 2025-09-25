@@ -21,6 +21,7 @@ class MovieCard extends Component
         public $rating,
         public string $overview,
         public bool $isMovie = true,
+        public bool $watched = false,
     )
     {
 

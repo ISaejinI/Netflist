@@ -244,6 +244,18 @@ header {
   }
 }
 
+.seenBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  color: var(--blanc);
+  font-size: 60px;
+}
+.seen {
+  filter: grayscale(80%) blur(2px);
+}
+
 /* ------HERO SECTION------ */
 .hero-section {
   position: relative;

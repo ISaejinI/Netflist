@@ -12,7 +12,7 @@ class HomeController extends Controller
     public function getHomeDatas(Request $request)
     {
         if (Auth::check()) {
-            $savedMovies = $request->user()->titles()->wherePivot('watched', false);
+            $savedMovies = $request->user()->titles()->orderBy('title_user.watched')->orderByDesc('title_user.created_at');
 
             if ($request->has('genre') && $request->input('genre') != "") {
                 $savedMovies = $savedMovies->whereHas('genres', function ($query) use ($request) {
