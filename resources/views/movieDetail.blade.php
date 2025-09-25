@@ -117,7 +117,7 @@
                 <h2 class="section-title">Épisodes</h2>
                 <div class="seasons-container">
                     @php
-                        $seasons = $movie->episodes->groupBy('season')->sortKeys();
+                        $seasons = $userEpisodes->groupBy('season')->sortKeys();
                     @endphp
                     
                     @foreach ($seasons as $seasonNumber => $seasonEpisodes)
@@ -137,6 +137,7 @@
                             
                             <div class="episodes-list">
                                 @foreach ($seasonEpisodes->sortBy('episode_number') as $episode)
+                                {{-- @dd($episode->pivot) --}}
                                     <div class="episode-item">
                                         <div class="episode-number">{{ $episode->episode_number }}</div>
                                         <div class="episode-content">
@@ -154,19 +155,23 @@
                                             </div>
                                         </div>
                                         <div class="episode-actions">
-                                            <form action="{{ route('watchepisode') }}" method="post" class="action-form">
-                                                @csrf
-                                                <input type="hidden" name="episode_id" value="{{ $episode->id }}">
-                                                <button type="submit" class="episode-action-btn" title="Marquer comme vu">
-                                                    <i class='bx bx-check'></i>
-                                                </button>
-                                            </form>
-                                            {{-- <button class="episode-action-btn" title="Marquer comme vu">
-                                                <i class='bx bx-check'></i>
-                                            </button> --}}
-                                            <button class="episode-action-btn" title="Ajouter aux favoris">
-                                                <i class='bx bx-heart'></i>
-                                            </button>
+                                            @if ($episode->pivot->watched == false)
+                                                <form action="{{ route('watchepisode') }}" method="post" class="action-form">
+                                                    @csrf
+                                                    <input type="hidden" name="episode_id" value="{{ $episode->id }}">
+                                                    <button type="submit" class="episode-action-btn" title="Marquer comme vu">
+                                                        <i class='bx bx-check'></i>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="" method="post" class="action-form">
+                                                    @csrf
+                                                    <input type="hidden" name="episode_id" value="{{ $episode->id }}">
+                                                    <button type="submit" class="episode-action-btn" title="Marquer comme non vu">
+                                                        <i class='bxr bx-trash'></i> 
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
                                 @endforeach
@@ -183,13 +188,5 @@
             const dropdown = document.querySelector(`[data-season="${seasonNumber}"]`);
             dropdown.classList.toggle('active');
         }
-
-        // Optionnel : Ouvrir la première saison par défaut
-        document.addEventListener('DOMContentLoaded', function() {
-            const firstSeason = document.querySelector('.season-dropdown');
-            if (firstSeason) {
-                firstSeason.classList.add('active');
-            }
-        });
     </script>
 @endsection

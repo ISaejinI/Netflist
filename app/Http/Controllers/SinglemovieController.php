@@ -10,8 +10,12 @@ class SinglemovieController extends Controller
 {
     public function movieDetail($id)
     {
-        $movie = Title::with('genres', 'actors', 'directors')->findOrFail($id);
-        return view('moviedetail', ['movie' => $movie]);
+        $movie = Title::with('genres', 'actors', 'directors', 'episodes')->findOrFail($id);
+        $user = Auth::user();
+        $userEpisodes = $user->episodes->where('title_id', $id);
+        // dd($userEpisodes->toArray());
+
+        return view('moviedetail', ['movie' => $movie, 'userEpisodes' => $userEpisodes]);
     }
 
     public function markEpisodeAsWatched (Request $request)
