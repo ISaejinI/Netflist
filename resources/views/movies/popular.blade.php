@@ -23,11 +23,11 @@
                             <x-movie-card 
                                 type="popular"
                                 poster="{{ $movie->poster_path }}" 
-                                title="{{ $movie->$title }}"
+                                :title="$movie->$title"
                                 id="{{ $movie->id }}"
                                 date="{{ $movie->$date }}"
                                 rating="{{ $movie->vote_average }}"
-                                overview="{{ $movie->overview }}"
+                                :overview="$movie->overview"
                                 genres=""
                                 isMovie="{{ $isMovie }}"
                             />
@@ -44,11 +44,11 @@
                             <x-movie-card 
                                 type="popular"
                                 poster="{{ $movie->poster_path }}" 
-                                title="{{ $movie->$title }}"
+                                :title="$movie->$title"
                                 id="{{ $movie->id }}"
                                 date="{{ $movie->$date }}"
                                 rating="{{ $movie->vote_average }}"
-                                overview="{{ $movie->overview }}"
+                                :overview="$movie->overview"
                                 genres=""
                                 isMovie="{{ $isMovie }}"
                             />

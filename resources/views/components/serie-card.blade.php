@@ -1,6 +1,6 @@
 <div class="movie-card">
     <div class="movie-poster">
-        <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy" class="{{ $watched==1?'seen':'' }}">
+        <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy" class="{{ $watched == 1 ? 'seen' : '' }}">
         @if ($watched == 1)
             <span class="seenBox"><i class='bxr bx-eye-alt'></i></span>
         @endif
@@ -14,13 +14,6 @@
                     <a href="{{ route('moviedetail', $id) }}" class="action-btn primary" title="Voir le film">
                         <i class='bx bx-play'></i>
                     </a>
-                    <form action="{{ route('watched') }}" method="post" class="action-form">
-                        @csrf
-                        <input type="hidden" name="movie_id" value="{{ $id }}">
-                        <button type="submit" class="action-btn secondary" title="Marquer comme vu">
-                            <i class='bx bx-check'></i>
-                        </button>
-                    </form>
                 @elseif ($type == 'popular')
                     @if ($isMovie === true)
                         <form action="{{ route('storemovie') }}" method="POST" class="action-form">
@@ -66,5 +59,22 @@
             </div>
         </div>
         <p class="popular-movie-overview">{{ $overview }}</p>
+
+        {{-- Affichage du prochain épisode --}}
+        <div>
+
+            @if (isset($nextEpisode))
+                
+                <div class="next-episode">
+                    <strong>Prochain épisode :</strong>
+                    S{{ $nextEpisode->season }} Ep{{ $nextEpisode->episode_number }} :
+                    {{ $nextEpisode->episode_name }}
+                </div>
+            @else
+                <div class="next-episode">
+                    <strong>Vous avez vu tous les épisodes !</strong>
+                </div>
+            @endif
+        </div>
     </div>
 </div>

@@ -20,7 +20,7 @@ class SerieCard extends Component
         public $date,
         public $rating,
         public string $overview,
-        public $episodes,
+        public $nextEpisode,
         public bool $watched = false,
     )
     {

@@ -37,8 +37,8 @@
                     <div class="empty-icon">
                         <i class='bx bx-movie'></i>
                     </div>
-                    <h3>Connectez-vous pour accéder à votre watchlist</h3>
-                    <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
+                    <h3>Votre watchlist est vide</h3>
+                    <p>Connectez-vous pour commencez à ajouter des films à votre liste pour les retrouver ici</p>
                     <a href="{{ route('login') }}" class="btn-primary"> <i class='bx bx-plus'></i> Se connecter </a>
                 </div>
             @endguest
@@ -89,12 +89,12 @@
                                     <x-movie-card 
                                         type="home"
                                         poster="{{ $movie->poster_path }}" 
-                                        title="{{ $movie->name }}"
+                                        :title="$movie->name"
                                         id="{{ $movie->id }}" 
                                         :genres="$movie->genres"
                                         date="{{ $movie->release_date }}"
                                         rating="{{ $movie->rating }}"
-                                        overview="{{ $movie->overview }}"
+                                        :overview="$movie->overview"
                                         watched="{{ $movie->pivot->watched }}"
                                     />
                                 @endforeach
@@ -108,16 +108,24 @@
                         @if ($series->count() > 0)
                             <div class="movies-grid">
                                 @foreach ($series as $serie)
+                                    @php
+                                        $nextEpisode = Auth::user()->episodes
+                                            ->where('title_id', $serie->id)
+                                            ->where('pivot.watched', false)
+                                            ->sortBy(['season', 'episode_number'])
+                                            ->first();
+                                        // dd($nextEpisode);
+                                    @endphp
                                     <x-serie-card 
                                         type="home"
                                         poster="{{ $serie->poster_path }}" 
-                                        title="{{ $serie->name }}"
+                                        :title="$serie->name"
                                         id="{{ $serie->id }}" 
                                         :genres="$serie->genres"
                                         date="{{ $serie->release_date }}"
                                         rating="{{ $serie->rating }}"
-                                        overview="{{ $serie->overview }}"
-                                        episodes="{{ $serie->episodes }}"
+                                        :overview="$serie->overview"
+                                        :nextEpisode="$nextEpisode"
                                         watched="{{ $serie->pivot->watched }}"
                                     />
                                 @endforeach
