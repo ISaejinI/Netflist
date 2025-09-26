@@ -145,11 +145,11 @@ class MovieController extends Controller
 
     public function markAsWatched(Request $request)
     {
-        if ($request->user()) {
+        if (Auth::user()) {
             if ($request->has('movie_id') && $request->input('movie_id') > 0) {
                 $movie = $request->user()->titles()->where('titles.id', $request->input('movie_id'))->first();
                 if ($movie) {
-                    $movie->pivot->watched = true;
+                    $movie->pivot->watched = !$movie->pivot->watched;
                     $movie->pivot->save();
                     return back()->with('success', 'Film marqué comme vu');
                 } else {

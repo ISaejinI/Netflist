@@ -17,8 +17,8 @@
                     <form action="{{ route('watched') }}" method="post" class="action-form">
                         @csrf
                         <input type="hidden" name="movie_id" value="{{ $id }}">
-                        <button type="submit" class="action-btn secondary" title="Marquer comme vu">
-                            <i class='bx bx-check'></i>
+                        <button type="submit" class="action-btn secondary" title="{{ $watched==0?'Marquer comme vu':'Marquer comme non vu' }}" >
+                            <i class='{{ $watched==0?"bx bx-check":"bxr bx-eye-slash" }}'></i>
                         </button>
                     </form>
                 @elseif ($type == 'popular')
