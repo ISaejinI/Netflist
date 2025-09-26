@@ -24,9 +24,9 @@ class SinglemovieController extends Controller
             if ($request->has('episode_id') && $request->input('episode_id') > 0) {
                 $episode = Auth::user()->episodes()->where('episodes.id', $request->input('episode_id'))->first();
 
-                $episode->pivot->watched = true;
+                $episode->pivot->watched = !$episode->pivot->watched;
                 $episode->pivot->save();
-                
+
                 $serieEpisodes = Auth::user()->episodes->where('title_id', $episode->title_id);
                 $is_finished = true;
                 foreach ($serieEpisodes as $serieEpisode) {
@@ -35,12 +35,12 @@ class SinglemovieController extends Controller
                         break;
                     }
                 }
-                if ($is_finished == true) {
-                    $serie = Auth::user()->titles->where('id', $episode->title_id)->first();
-                    $serie->pivot->watched = true;
-                    $serie->pivot->save();
-                }
-                return back()->with('success', 'Épisode marqué comme vu');
+                $serie = Auth::user()->titles->where('id', $episode->title_id)->first();
+                $serie->pivot->watched = $is_finished;
+                $serie->pivot->save();
+                
+                $returnText = !$episode->pivot->watched==1?"non vu":"vu";
+                return back()->with('success', 'Épisode marqué comme '.$returnText);
             }
         } else {
             return back()->with('error', 'Connectez-vous pour marquer vos épisodes');

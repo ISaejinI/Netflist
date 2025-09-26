@@ -161,23 +161,13 @@
                                             </div>
                                         </div>
                                         <div class="episode-actions">
-                                            @if ($episode->pivot->watched == false)
-                                                <form action="{{ route('watchepisode') }}" method="post" class="action-form">
-                                                    @csrf
-                                                    <input type="hidden" name="episode_id" value="{{ $episode->id }}">
-                                                    <button type="submit" class="episode-action-btn" title="Marquer comme vu">
-                                                        <i class='bx bx-check'></i>
-                                                    </button>
-                                                </form>
-                                            @else
-                                                <form action="" method="post" class="action-form">
-                                                    @csrf
-                                                    <input type="hidden" name="episode_id" value="{{ $episode->id }}">
-                                                    <button type="submit" class="episode-action-btn" title="Marquer comme non vu">
-                                                        <i class='bxr bx-trash'></i> 
-                                                    </button>
-                                                </form>
-                                            @endif
+                                            <form action="{{ route('watchepisode') }}" method="post" class="action-form">
+                                                @csrf
+                                                <input type="hidden" name="episode_id" value="{{ $episode->id }}">
+                                                <button type="submit" class="episode-action-btn" title="{{ $episode->pivot->watched==0?'Marquer comme vu':'Marquer comme non vu' }}">
+                                                    <i class='{{ $episode->pivot->watched==0?"bx bx-check":"bxr bx-eye-slash" }}'></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 @endforeach
