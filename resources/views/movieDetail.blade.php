@@ -6,7 +6,13 @@
                 <div class="poster-container">
                     <img src="{{ Storage::url($movie->poster_path) }}" alt="{{ $movie->title }}" class="movie-poster-img">
                     <div class="poster-overlay">
-                        <div class="rating-badge">
+                        @if ($seen == true)
+                            <div class="seen-badge badge">
+                                <i class='bxr  bx-eye-alt'></i> 
+                                <span>Vu</span>
+                            </div>
+                        @endif
+                        <div class="rating-badge badge">
                             <i class='bxr  bxs-heart'></i> 
                             @php
                                 $note = $movie->rating * 10;

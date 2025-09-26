@@ -13,8 +13,9 @@ class SinglemovieController extends Controller
         $movie = Title::with('genres', 'actors', 'directors', 'episodes')->findOrFail($id);
         $user = Auth::user();
         $userEpisodes = $user->episodes->where('title_id', $id);
+        $seen = $user->titles->where('id', $id)->first()->pivot->watched;
 
-        return view('moviedetail', ['movie' => $movie, 'userEpisodes' => $userEpisodes]);
+        return view('moviedetail', ['movie' => $movie, 'userEpisodes' => $userEpisodes, 'seen' => $seen]);
     }
 
     public function markEpisodeAsWatched(Request $request)
