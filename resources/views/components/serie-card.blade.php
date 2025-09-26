@@ -1,6 +1,7 @@
 <div class="movie-card">
     <div class="movie-poster">
-        <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy" class="{{ $watched == 1 ? 'seen' : '' }}">
+        <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy"
+            class="{{ $watched == 1 ? 'seen' : '' }}">
         @if ($watched == 1)
             <span class="seenBox"><i class='bxr bx-eye-alt'></i></span>
         @endif
@@ -64,12 +65,28 @@
         <div>
 
             @if (isset($nextEpisode))
-                
+                @if (!$nextEpisode->season == 1 && $nextEpisode->episode_number == 1)
+                    <form action="" method="POST" class="action-form">
+                        @csrf
+                        <input type="hidden" name="serie_id" value="{{ $id }}">
+                        <input type="hidden" name="episode_id" value="{{ $nextEpisode->id }}">
+                        <button type="submit" class="action-btn secondary" title="Épisode précédent">
+                            <i class='bx bx-minus'></i>
+                        </button>
+                    </form>
+                @endif
                 <div class="next-episode">
-                    <strong>Prochain épisode :</strong>
+                    {{-- <strong>Prochain épisode :</strong> --}}
                     S{{ $nextEpisode->season }} Ep{{ $nextEpisode->episode_number }} :
                     {{ $nextEpisode->episode_name }}
                 </div>
+                <form action="{{ route('watchepisode') }}" method="POST" class="action-form">
+                    @csrf
+                    <input type="hidden" name="episode_id" value="{{ $nextEpisode->id }}">
+                    <button type="submit" class="action-btn secondary" title="Épisode suivant">
+                        <i class='bx bx-plus'></i>
+                    </button>
+                </form>
             @else
                 <div class="next-episode">
                     <strong>Vous avez vu tous les épisodes !</strong>

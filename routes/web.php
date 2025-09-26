@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'getHomeDatas'])->name('home');
 
+//Routes qui font appel à l'API
 Route::controller(MovieController::class)->group(function() {
     Route::get('/popularMovies/{page?}', 'getPopularMovies')->name('popularmovies');
     Route::get('/bestRatedMovies', 'getBestRated')->name('bestratedmovies');
@@ -21,6 +22,7 @@ Route::controller(MovieController::class)->group(function() {
     Route::post('/storeSerie', 'storeSerie')->name('storeserie');
 });
 
+//Routes qui font appel à la BDD
 Route::controller(SinglemovieController::class)->group(function() {
     Route::get('/movie/{id}', 'movieDetail')->name('moviedetail');
     Route::post('/markEpisodeAsWatched', 'markEpisodeAsWatched')->name('watchepisode');
