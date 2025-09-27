@@ -120,10 +120,14 @@ class MovieController extends Controller
                 if (isset($actors)) {
                     $actorSliced = array_slice($actors, 0, 5);
                     foreach ($actorSliced as $actor) {
-                        $actorProfileUrl = 'https://image.tmdb.org/t/p/w500' . $actor->profile_path;
-                        $contents = file_get_contents($actorProfileUrl);
-                        $actorProfileName = $actor->id . 'profile.jpg';
-                        Storage::disk('public')->put('actors/' . $actorProfileName, $contents);
+                        if ($actor->profile_path != "") {
+                            $actorProfileUrl = 'https://image.tmdb.org/t/p/w185' . $actor->profile_path;
+                            $contents = file_get_contents($actorProfileUrl);
+                            $actorProfileName = $actor->id . 'profile.jpg';
+                            Storage::disk('public')->put('actors/' . $actorProfileName, $contents);
+                        } else {
+                            $actorProfileName = 'placeholder.jpg';
+                        }
                         $actor_profile_path = 'actors/' . $actorProfileName;
                         $newActor = Actor::firstOrCreate(
                             ['id_actor_tmdb' => $actor->id],
@@ -234,14 +238,20 @@ class MovieController extends Controller
     public function getBestRated()
     {
         $bestRatedMovies = [];
+        $bestRatedSeries = [];
         for ($i = 1; $i <= 5; $i++) {
             $bestRatedMoviesPage = $this->getCurlDatas('movie/top_rated?language=fr-FR&page=' . $i);
+            $bestRatedSeriesPage = $this->getCurlDatas('tv/top_rated?language=fr-FR&page=' . $i);
             if (isset($bestRatedMoviesPage->results)) {
                 $bestRatedMovies = array_merge($bestRatedMovies, $bestRatedMoviesPage->results);
             }
+            if (isset($bestRatedSeriesPage->results)) {
+                $bestRatedSeries = array_merge($bestRatedSeries, $bestRatedSeriesPage->results);
+            }
         }
         $bestRatedMovies = (object) ['results' => $bestRatedMovies];
-        return view('movies.bestRated', ['movies' => $bestRatedMovies, 'title' => 'Les films les mieux notés', 'type' => 'bestRated']);
+        $bestRatedSeries = (object) ['results' => $bestRatedSeries];
+        return view('movies.bestRated', ['movies' => $bestRatedMovies, 'series' => $bestRatedSeries, 'title' => 'Les films les mieux notés', 'type' => 'bestRated']);
     }
 
     public function storeSerie(Request $request)

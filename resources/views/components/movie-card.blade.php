@@ -22,23 +22,20 @@
                         </button>
                     </form>
                 @elseif ($type == 'popular')
-                    @if ($isMovie === true)
-                        <form action="{{ route('storemovie') }}" method="POST" class="action-form">
-                            @csrf
-                            <input type="hidden" name="movie_id" value="{{ $id }}">
-                            <button type="submit" class="action-btn secondary" title="Ajouter à ma liste">
-                                <i class='bx bx-plus'></i>
-                            </button>
-                        </form>
-                    @elseif($isMovie === false)
-                        <form action="{{ route('storeserie') }}" method="POST" class="action-form">
-                            @csrf
-                            <input type="hidden" name="serie_id" value="{{ $id }}">
-                            <button type="submit" class="action-btn secondary" title="Ajouter à ma liste">
-                                <i class='bx bx-plus'></i>
-                            </button>
-                        </form>
-                    @endif
+                    @php
+                        if ($isMovie===true) {
+                            $action = route('storemovie');
+                        } else {
+                            $action = route('storeserie');
+                        }
+                    @endphp
+                    <form action="{{ $action }}" method="POST" class="action-form">
+                        @csrf
+                        <input type="hidden" name="movie_id" value="{{ $id }}">
+                        <button type="submit" class="action-btn secondary" title="Ajouter à ma liste">
+                            <i class='bx bx-plus'></i>
+                        </button>
+                    </form>
                 @endif
             </div>
         </div>
