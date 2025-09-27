@@ -80,6 +80,215 @@ header {
   }
 }
 
+/* ------MOBILE MENU BURGER------ */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.burger-line {
+  width: 25px;
+  height: 3px;
+  background-color: var(--blanc);
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.mobile-menu-toggle.active .burger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active .burger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active .burger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--noir) 0%, #1a1a1a 100%);
+  z-index: 999;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu-header {
+  padding: 2rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-logo {
+  width: 120px;
+  margin-bottom: 1rem;
+}
+
+.mobile-menu-nav {
+  padding: 2rem 1.5rem;
+}
+
+.mobile-menu-nav a {
+  display: block;
+  padding: 1rem 0;
+  color: var(--blanc);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all var(--duration) var(--a-type);
+  position: relative;
+}
+
+.mobile-menu-nav a:hover {
+  color: var(--rouge);
+  padding-left: 1rem;
+}
+
+.mobile-menu-nav a:hover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  background: var(--rouge);
+  border-radius: 2px;
+}
+
+.mobile-menu-nav #register {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--rouge);
+  color: var(--blanc);
+  border: 2px solid var(--rouge);
+  border-radius: var(--radius-s);
+  text-align: center;
+  font-weight: 600;
+  transition: all var(--duration) var(--a-type);
+}
+
+.mobile-menu-nav #register:hover {
+  background: #f40612;
+  border-color: #f40612;
+  padding-left: 1.5rem;
+}
+
+.mobile-menu-nav #register::before {
+  display: none;
+}
+
+.mobile-menu-footer {
+  position: absolute;
+  bottom: 2rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  text-align: center;
+  color: var(--blanc-clair);
+  font-size: 0.9rem;
+}
+
+/* ------MOBILE MENU ANIMATIONS------ */
+.mobile-menu-nav a {
+  animation: slideInRight 0.3s ease forwards;
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.mobile-menu-nav a:nth-child(1) { animation-delay: 0.1s; }
+.mobile-menu-nav a:nth-child(2) { animation-delay: 0.2s; }
+.mobile-menu-nav a:nth-child(3) { animation-delay: 0.3s; }
+.mobile-menu-nav a:nth-child(4) { animation-delay: 0.4s; }
+.mobile-menu-nav a:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mobile-menu.active .mobile-menu-nav a {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+/* ------MOBILE MENU IMPROVEMENTS------ */
+@media (max-width: 480px) {
+  .mobile-menu {
+    width: 100%;
+  }
+  
+  .mobile-menu-nav {
+    padding: 1.5rem 1rem;
+  }
+  
+  .mobile-menu-nav a {
+    font-size: 1rem;
+    padding: 0.875rem 0;
+  }
+  
+  .mobile-menu-header {
+    padding: 1.5rem 1rem 1rem;
+  }
+  
+  .mobile-menu-footer {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ------DESKTOP NAV HIDDEN ON MOBILE------ */
+@media (max-width: 768px) {
+  #navHeader {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+}
+
 /* ------SEARCH BAR------ */
 #info-container {
   position: relative;
@@ -582,44 +791,6 @@ header {
   margin: 0;
 }
 
-/* ------RESPONSIVE TOGGLE------ */
-@media (max-width: 768px) {
-  .content-toggle-container {
-    margin: 1.5rem 0 2rem;
-  }
-  
-  .toggle-btn {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
-  
-  .toggle-btn i {
-    font-size: 1rem;
-  }
-  
-  .section-title {
-    font-size: 1.6rem;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 480px) {
-  .toggle-buttons {
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .toggle-btn {
-    justify-content: center;
-    width: 100%;
-  }
-}
-
 .movie-card {
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-l);
@@ -773,54 +944,6 @@ header {
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
-}
-
-/* ------RESPONSIVE DESIGN------ */
-@media (max-width: 768px) {
-  .hero-section {
-    height: 60vh;
-    min-height: 400px;
-  }
-  
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .btn-primary, .btn-secondary {
-    width: 100%;
-    max-width: 300px;
-    justify-content: center;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .filter-group {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .filter-select {
-    min-width: auto;
-  }
-  
-  .movies-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .movies-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .hero-content {
-    padding: 0 1rem;
-  }
 }
 
 /* ------MOVIE DETAIL PAGE - NOUVELLES CLASSES------ */
@@ -1164,88 +1287,6 @@ header {
   display: inline;
 }
 
-/* ------RESPONSIVE MOVIE DETAIL------ */
-@media (max-width: 1024px) {
-  .movie-detail-layout {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  
-  .poster-container {
-    height: 60vh;
-    min-height: 400px;
-  }
-  
-  .movie-title {
-    font-size: 2.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .movie-detail-page {
-    padding: 1rem 0;
-  }
-  
-  .movie-detail-layout {
-    padding: 0 1rem;
-  }
-  
-  .movie-title {
-    font-size: 2rem;
-  }
-  
-  .title-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .movie-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .rating-section {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .action-buttons {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .btn-watch-trailer {
-    justify-content: center;
-  }
-  
-  .secondary-actions {
-    justify-content: center;
-  }
-  
-  .cast-grid, .directors-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
-  }
-  
-  .cast-avatar, .director-avatar {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-@media (max-width: 480px) {
-  .movie-title {
-    font-size: 1.8rem;
-  }
-  
-  .cast-grid, .directors-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 /* ------INDEX PAGE - NOUVELLES CLASSES------ */
 .index-page {
   min-height: 100vh;
@@ -1495,35 +1536,6 @@ header {
   box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4);
 }
 
-/* ------RESPONSIVE INDEX------ */
-@media (max-width: 768px) {
-  .index-hero {
-    padding: 2rem 0;
-  }
-  
-  .index-movies-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .index-movie-info {
-    padding: 1rem;
-  }
-  
-  .index-movie-title {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .index-movies-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .index-hero-content {
-    padding: 0 1rem;
-  }
-}
 
 /* ------RATED PAGE - NOUVELLES CLASSES------ */
 .rated-page {
@@ -1776,77 +1788,6 @@ header {
   overflow: hidden;
 }
 
-/* ------RESPONSIVE RATED------ */
-@media (max-width: 1024px) {
-  .rated-movie-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
-  
-  .rated-movie-poster {
-    width: 150px;
-    height: 225px;
-  }
-  
-  .rated-movie-card {
-    margin-left: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .rated-hero {
-    padding: 2rem 0;
-  }
-  
-  .rated-movie-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem;
-  }
-  
-  .rated-movie-content {
-    margin-left: 0;
-    width: 100%;
-  }
-  
-  .rated-movie-poster {
-    width: 100%;
-    height: 250px;
-    align-self: center;
-  }
-  
-  .rated-movie-title {
-    font-size: 1.5rem;
-  }
-  
-  .rated-movie-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .rated-movie-poster {
-    height: 200px;
-  }
-  
-  .rated-movie-title {
-    font-size: 1.3rem;
-  }
-  
-  .rated-rank-badge {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .rated-rank-number {
-    font-size: 1.2rem;
-  }
-}
-
 /* ------POPULAR PAGE - NOUVELLES CLASSES------ */
 .popular-page {
   min-height: 100vh;
@@ -2002,50 +1943,6 @@ header {
 .popular-pagination-btn.active:hover {
   background: #f40612;
   color: var(--blanc);
-}
-
-/* ------RESPONSIVE POPULAR------ */
-@media (max-width: 768px) {
-  .popular-hero {
-    padding: 2rem 0;
-  }
-  
-  .popular-movies-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .popular-pagination-container {
-    flex-wrap: wrap;
-    gap: 0.25rem;
-    padding: 0.75rem 1rem;
-  }
-  
-  .popular-pagination-btn {
-    width: 35px;
-    height: 35px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .popular-movies-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .popular-hero-content {
-    padding: 0 1rem;
-  }
-  
-  .popular-pagination-container {
-    padding: 0.5rem;
-  }
-  
-  .popular-pagination-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
-  }
 }
 
 /* ------EPISODES DROPDOWN SECTION------ */
@@ -2253,51 +2150,6 @@ header {
   background: var(--rouge);
   border-color: var(--rouge);
   transform: scale(1.1);
-}
-
-/* ------RESPONSIVE EPISODES------ */
-@media (max-width: 768px) {
-  .episodes-section {
-    margin-top: 2rem;
-    padding: 1rem 0;
-  }
-  
-  .season-header {
-    padding: 1rem 1.5rem;
-  }
-  
-  .season-number {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
-  
-  .season-name {
-    font-size: 1.1rem;
-  }
-  
-  .episode-item {
-    padding: 1rem 1.5rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  
-  .episode-number {
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
-  }
-  
-  .episode-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .episode-actions {
-    align-self: flex-end;
-  }
 }
 
 /* ------SERIE CARD HORIZONTAL------ */
@@ -2560,7 +2412,614 @@ header {
   font-size: 0.9rem;
 }
 
-/* ------RESPONSIVE SERIE CARD HORIZONTAL------ */
+/* ================================
+   RESPONSIVE DESIGN - MOBILE FIRST
+   ================================ */
+
+/* ------GLOBAL RESPONSIVE------ */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 0 1rem;
+  }
+  
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  html {
+    font-size: 13px;
+  }
+}
+
+/* ------HEADER RESPONSIVE------ */
+@media (max-width: 768px) {
+  header {
+    padding: 12px 0;
+    position: relative;
+    z-index: 1000;
+  }
+  
+  header .container {
+    justify-content: space-between;
+  }
+  
+  #logo {
+    width: 150px;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  #logo {
+    width: 120px;
+  }
+  
+  .mobile-menu {
+    width: 100%;
+    right: -100%;
+  }
+  
+  .mobile-menu.active {
+    right: 0;
+  }
+}
+
+/* ------SEARCH BAR RESPONSIVE------ */
+@media (max-width: 768px) {
+  #info-container {
+    padding: 16px 0;
+  }
+  
+  #searchForm {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  input[type="search"] {
+    font-size: 18px;
+    padding: 0 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #searchForm {
+    width: 100%;
+  }
+  
+  input[type="search"] {
+    font-size: 16px;
+    padding: 0 1rem;
+  }
+}
+
+/* ------HERO SECTION RESPONSIVE------ */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 60vh;
+    min-height: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-content {
+    padding: 0 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    height: 50vh;
+    min-height: 350px;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .btn-primary, .btn-secondary {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ------WATCHLIST SECTION RESPONSIVE------ */
+@media (max-width: 768px) {
+  .watchlist-section {
+    padding: 1.5rem 0 2rem;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .section-title-home {
+    font-size: 2rem;
+  }
+  
+  .filter-container {
+    margin-bottom: 2rem;
+  }
+  
+  .filter-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .filter-select {
+    min-width: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title-home {
+    font-size: 1.75rem;
+  }
+  
+  .filter-form {
+    padding: 1rem;
+  }
+  
+  .filter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ------MOVIES GRID RESPONSIVE------ */
+@media (max-width: 768px) {
+  .moviesContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .movie-card {
+    border-radius: var(--radius-s);
+  }
+  
+  .movie-info {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .movie-title-home {
+    font-size: 1rem;
+  }
+  
+  .movie-genres {
+    gap: 6px;
+  }
+  
+  .genre-tag-home {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .moviesContainer {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .movies-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .movie-info {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .movie-title-home {
+    font-size: 0.95rem;
+  }
+}
+
+/* ------CONTENT TOGGLE RESPONSIVE------ */
+@media (max-width: 768px) {
+  .content-toggle-container {
+    margin: 1.5rem 0 2rem;
+  }
+  
+  .toggle-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .toggle-btn i {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .toggle-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .toggle-btn {
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.4rem;
+  }
+  
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+/* ------MOVIE DETAIL RESPONSIVE------ */
+@media (max-width: 1024px) {
+  .movie-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .poster-container {
+    height: 60vh;
+    min-height: 400px;
+  }
+  
+  .movie-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-detail-page {
+    padding: 1rem 0;
+  }
+  
+  .movie-detail-layout {
+    padding: 0;
+  }
+  
+  .movie-title {
+    font-size: 2rem;
+  }
+  
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .movie-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .rating-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .btn-watch-trailer {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .cast-grid, .directors-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+  }
+  
+  .cast-avatar, .director-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .poster-container {
+    height: 50vh;
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-title {
+    font-size: 1.8rem;
+  }
+  
+  .cast-grid, .directors-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .cast-avatar, .director-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .poster-container {
+    height: 40vh;
+    min-height: 250px;
+  }
+}
+
+/* ------EPISODES RESPONSIVE------ */
+@media (max-width: 768px) {
+  .episodes-section {
+    margin-top: 2rem;
+    padding: 1rem 0;
+  }
+  
+  .season-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .season-number {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .season-name {
+    font-size: 1.1rem;
+  }
+  
+  .episode-item {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .episode-number {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  
+  .episode-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .episode-actions {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .season-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .season-number {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+  
+  .season-name {
+    font-size: 1rem;
+  }
+  
+  .episode-item {
+    padding: 0.75rem 1rem;
+  }
+  
+  .episode-title {
+    font-size: 1rem;
+  }
+  
+  .episode-overview {
+    font-size: 0.9rem;
+  }
+}
+
+/* ------INDEX PAGE RESPONSIVE------ */
+@media (max-width: 768px) {
+  .index-hero {
+    padding: 2rem 0;
+  }
+  
+  .index-movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .index-movie-info {
+    padding: 1rem;
+  }
+  
+  .index-movie-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .index-movies-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .index-hero-content {
+    padding: 0 1rem;
+  }
+  
+  .index-movie-info {
+    padding: 0.75rem;
+  }
+}
+
+/* ------RATED PAGE RESPONSIVE------ */
+@media (max-width: 1024px) {
+  .rated-movie-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  
+  .rated-movie-poster {
+    width: 150px;
+    height: 225px;
+  }
+  
+  .rated-movie-card {
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .rated-hero {
+    padding: 2rem 0;
+  }
+  
+  .rated-movie-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .rated-movie-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .rated-movie-poster {
+    width: 100%;
+    height: 250px;
+    align-self: center;
+  }
+  
+  .rated-movie-title {
+    font-size: 1.5rem;
+  }
+  
+  .rated-movie-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rated-movie-poster {
+    height: 200px;
+  }
+  
+  .rated-movie-title {
+    font-size: 1.3rem;
+  }
+  
+  .rated-rank-badge {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .rated-rank-number {
+    font-size: 1.2rem;
+  }
+}
+
+/* ------POPULAR PAGE RESPONSIVE------ */
+@media (max-width: 768px) {
+  .popular-hero {
+    padding: 2rem 0;
+  }
+  
+  .popular-pagination-container {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .popular-pagination-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .popular-hero-content {
+    padding: 0 1rem;
+  }
+  
+  .popular-pagination-container {
+    padding: 0.5rem;
+  }
+  
+  .popular-pagination-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ------SERIE CARD HORIZONTAL RESPONSIVE------ */
 @media (max-width: 768px) {
   .serie-card-horizontal {
     flex-direction: column;
@@ -2608,5 +3067,191 @@ header {
   
   .serie-title-horizontal {
     font-size: 1.1rem;
+  }
+  
+  .serie-overview-horizontal {
+    font-size: 0.9rem;
+  }
+}
+
+/* ------ALERT RESPONSIVE------ */
+@media (max-width: 768px) {
+  .alert {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    margin: 1rem 0;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* ------ACTION BUTTONS RESPONSIVE------ */
+@media (max-width: 768px) {
+  .action-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .episode-action-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+  
+  .episode-action-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ------TEXT RESPONSIVE------ */
+@media (max-width: 768px) {
+  .movie-description {
+    font-size: 1rem;
+  }
+  
+  .movie-overview {
+    font-size: 0.9rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-description {
+    font-size: 0.95rem;
+  }
+  
+  .movie-overview {
+    font-size: 0.85rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* ------UTILITIES RESPONSIVE------ */
+@media (max-width: 768px) {
+  .highlight {
+    font-size: inherit;
+  }
+  
+  .genre-tag, .genre-tag-home {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .genre-tag, .genre-tag-home {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+  }
+}
+
+/* ------AUTH PAGES------ */
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-l);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.auth-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--blanc);
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--blanc-clair);
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-s);
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  color: var(--blanc);
+  font-family: var(--font-fam);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--rouge);
+  background: rgba(255,255,255,0.15);
+}
+
+.auth-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.auth-switch {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: var(--blanc-clair);
+  font-size: 0.9rem;
+}
+
+.auth-switch a {
+  font-weight: 600;
+  color: var(--rouge);
+  transition: color var(--duration) var(--a-type);
+}
+
+.auth-switch a:hover {
+  color: #f40612;
+}
+
+/* ------RESPONSIVE------ */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.5rem;
+  }
+  .auth-title {
+    font-size: 1.5rem;
   }
 }

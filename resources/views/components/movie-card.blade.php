@@ -33,13 +33,15 @@
                     @php
                         if ($isMovie===true) {
                             $action = route('storemovie');
+                            $name = 'movie_id';
                         } else {
                             $action = route('storeserie');
+                            $name = 'serie_id';
                         }
                     @endphp
                     <form action="{{ $action }}" method="POST" class="action-form">
                         @csrf
-                        <input type="hidden" name="movie_id" value="{{ $id }}">
+                        <input type="hidden" name="{{ $name }}" value="{{ $id }}">
                         <button type="submit" class="action-btn secondary" title="Ajouter à ma liste">
                             <i class='bx bx-plus'></i>
                         </button>
