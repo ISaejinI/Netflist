@@ -106,7 +106,7 @@
                     <div>
                         <h3>Vos <span class="highlight">Séries</span></h3>
                         @if ($series->count() > 0)
-                            <div class="movies-grid">
+                            <div class="series-grid">
                                 @foreach ($series as $serie)
                                     @php
                                         $nextEpisode = Auth::user()->episodes

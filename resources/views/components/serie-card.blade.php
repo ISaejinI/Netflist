@@ -1,99 +1,90 @@
-<div class="movie-card">
-    <div class="movie-poster">
+<div class="serie-card-horizontal">
+    <div class="serie-poster-horizontal">
         <img src="{{ Storage::url($poster) }}" alt="{{ $title }}" loading="lazy"
             class="{{ $watched == 1 ? 'seen' : '' }}">
         @if ($watched == 1)
             <span class="seenBox"><i class='bxr bx-eye-alt'></i></span>
         @endif
 
-        <div class="movie-overlay">
-            <div class="movie-actions">
-                @if ($type == 'home')
-                    <a href="{{ route('moviedetail', $id) }}" class="action-btn primary" title="Voir le film">
-                        <i class='bx bx-play'></i>
-                    </a>
-                    <form action="{{ route('deletetitle') }}" method="post" class="action-form">
-                        @csrf
-                        @method('delete')
-                        <input type="hidden" name="title_id" value="{{ $id }}">
-                        <button type="submit" class="action-btn secondary" title="Supprimer de la liste">
-                            <i class='bx bx-trash'></i>
-                        </button>
-                    </form>
-                @elseif ($type == 'popular')
-                    @if ($isMovie === true)
-                        <form action="{{ route('storemovie') }}" method="POST" class="action-form">
-                            @csrf
-                            <input type="hidden" name="movie_id" value="{{ $id }}">
-                            <button type="submit" class="action-btn secondary" title="Ajouter à ma liste">
-                                <i class='bx bx-plus'></i>
-                            </button>
-                        </form>
-                    @elseif($isMovie === false)
-                        <form action="{{ route('storeserie') }}" method="POST" class="action-form">
-                            @csrf
-                            <input type="hidden" name="serie_id" value="{{ $id }}">
-                            <button type="submit" class="action-btn secondary" title="Ajouter à ma liste">
-                                <i class='bx bx-plus'></i>
-                            </button>
-                        </form>
-                    @endif
-                @endif
+        <div class="serie-overlay-horizontal">
+            <div class="serie-actions-horizontal">
+                <a href="{{ route('moviedetail', $id) }}" class="action-btn primary" title="Voir la série">
+                    <i class='bx bx-play'></i>
+                </a>
+                <form action="{{ route('deletetitle') }}" method="post" class="action-form">
+                    @csrf
+                    @method('delete')
+                    <input type="hidden" name="title_id" value="{{ $id }}">
+                    <button type="submit" class="action-btn secondary" title="Supprimer de la liste">
+                        <i class='bx bx-trash'></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
-    <div class="movie-info">
-        <h3 class="movie-title-home">{{ $title }}</h3>
-        @if ($genres != '')
-            <div class="movie-genres">
-                @foreach ($genres as $genre)
-                    <span class="genre-tag-home">{{ $genre->name }}</span>
-                @endforeach
-            </div>
-        @endif
-        <div class="popular-movie-meta">
-            <span class="popular-release-date">
-                <i class='bx bx-calendar'></i>
-                {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
-            </span>
-            <div class="popular-movie-rating">
-                <i class='bxr bxs-heart'></i>
-                @php
-                    $note = $rating * 10;
-                @endphp
-                <span>{{ $note }}%</span>
-            </div>
-        </div>
-        <p class="popular-movie-overview">{{ $overview }}</p>
 
-        {{-- Affichage du prochain épisode --}}
-        <div>
+    <div class="serie-info-horizontal">
+        <div class="serie-header-horizontal">
+            <h3 class="serie-title-horizontal">{{ $title }}</h3>
 
-            @if (isset($nextEpisode))
-                @if ($isFirst != 1)
-                    <form action="{{ route('watchepisode') }}" method="POST" class="action-form">
-                        @csrf
-                        <input type="hidden" name="episode_id" value="{{ $previousEpisode->id }}">
-                        <button type="submit" class="action-btn secondary" title="Épisode précédent">
-                            <i class='bx bx-minus'></i>
-                        </button>
-                    </form>
-                @endif
-                <div class="next-episode">
-                    {{-- <strong>Prochain épisode :</strong> --}}
-                    S{{ $nextEpisode->season }} Ep{{ $nextEpisode->episode_number }} :
-                    {{ $nextEpisode->episode_name }}
+            @if ($genres != '')
+                <div class="serie-genres-horizontal">
+                    @foreach ($genres as $genre)
+                        <span class="serie-genre-tag-horizontal">{{ $genre->name }}</span>
+                    @endforeach
                 </div>
-                <form action="{{ route('watchepisode') }}" method="POST" class="action-form">
-                    @csrf
-                    <input type="hidden" name="episode_id" value="{{ $nextEpisode->id }}">
-                    <button type="submit" class="action-btn secondary" title="Épisode suivant">
-                        <i class='bx bx-plus'></i>
-                    </button>
-                </form>
+            @endif
+
+            <div class="serie-meta-horizontal">
+                <span class="serie-release-date-horizontal">
+                    <i class='bx bx-calendar'></i>
+                    {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+                </span>
+                <div class="serie-rating-horizontal">
+                    <i class='bxr bxs-heart'></i>
+                    @php
+                        $note = $rating * 10;
+                    @endphp
+                    <span>{{ $note }}%</span>
+                </div>
+            </div>
+
+            <p class="serie-overview-horizontal">{{ $overview }}</p>
+        </div>
+
+        {{-- Section des épisodes --}}
+        <div class="serie-episode-section">
+            @if (isset($nextEpisode))
+                <div class="next-episode-horizontal">
+                    <div class="episode-info-horizontal">
+                        <div class="episode-title-horizontal">
+                            S{{ $nextEpisode->season }} Ep{{ $nextEpisode->episode_number }}:
+                            {{ $nextEpisode->episode_name }}
+                        </div>
+                    </div>
+                    <div class="episode-actions-horizontal">
+                        @if ($isFirst != 1)
+                            <form action="{{ route('watchepisode') }}" method="POST" class="action-form">
+                                @csrf
+                                <input type="hidden" name="episode_id" value="{{ $previousEpisode->id }}">
+                                <button type="submit" class="episode-action-btn-horizontal" title="Épisode précédent">
+                                    <i class='bx bx-minus'></i>
+                                </button>
+                            </form>
+                        @endif
+                        <form action="{{ route('watchepisode') }}" method="POST" class="action-form">
+                            @csrf
+                            <input type="hidden" name="episode_id" value="{{ $nextEpisode->id }}">
+                            <button type="submit" class="episode-action-btn-horizontal" title="Épisode suivant">
+                                <i class='bx bx-plus'></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             @else
-                <div class="next-episode">
-                    <strong>Vous avez vu tous les épisodes !</strong>
+                <div class="completion-message">
+                    <i class='bx bx-check-circle'></i>
+                    <span>Série terminée</span>
                 </div>
             @endif
         </div>
