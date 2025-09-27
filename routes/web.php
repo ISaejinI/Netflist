@@ -16,9 +16,8 @@ Route::controller(MovieController::class)->group(function() {
     Route::post('/markAsWatched', 'markAsWatched')->name('watched');
     Route::get('/myWatchlist', 'index')->name('savedmovies');
     Route::delete('/deleteMovie', 'deleteMovie')->name('deletemovie');
-    Route::get('/search', 'searchMovie')->name('search');
+    Route::get('/search', 'searchTitle')->name('search');
     // Series
-    Route::get('/popularSeries', 'getPopularTV')->name('popularseries');
     Route::post('/storeSerie', 'storeSerie')->name('storeserie');
 });
 
@@ -28,6 +27,7 @@ Route::controller(SinglemovieController::class)->group(function() {
     Route::post('/markEpisodeAsWatched', 'markEpisodeAsWatched')->name('watchepisode');
 });
 
+//Routes d'authentification
 Route::controller(UserController::class)->group(function() {
     Route::get('/login', 'loginPage')->name('login');
     Route::post('/authenticate', 'authenticate')->name('authenticate');

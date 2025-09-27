@@ -42,7 +42,6 @@ class MovieController extends Controller
         }
     }
 
-
     public function getPopularTitles(Request $request)
     {
         $currentPage = $request->route('page', 1);
@@ -58,34 +57,22 @@ class MovieController extends Controller
         }
     }
 
-
-
-
-    public function getPopularMovies(Request $request)
+    public function searchTitle(Request $request)
     {
-        $currentPage = $request->route('page', 1);
-        if (is_numeric($currentPage) && $currentPage > 0) {
-            $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
-            if (!isset($popularMovies->results) || count($popularMovies->results) === 0) {
-                return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
-            }
-            return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films <span class="highlight">populaires</span>', 'type' => 'popularMovie']);
-        } else {
-            return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
-        }
-    }
+        if ($request->has('search') && $request->input('search') !== '') {
+            $searchName = urlencode($request->input('search'));
+            $searchResults = $this->getCurlDatas('search/multi?query=' . $searchName . '&include_adult=false&language=fr-FR&page=1');
+            $movies = array_filter($searchResults->results, function ($item) {
+                return isset($item->media_type) && ($item->media_type === 'movie');
+            });
+            
+            $series = array_filter($searchResults->results, function ($item) {
+                return isset($item->media_type) && ($item->media_type === 'tv');
+            });
 
-    public function getPopularTV(Request $request)
-    {
-        $currentPage = $request->route('page', 1);
-        if (is_numeric($currentPage) && $currentPage > 0) {
-            $popularSeries = $this->getCurlDatas("tv/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
-            if (!isset($popularSeries->results) || count($popularSeries->results) === 0) {
-                return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
-            }
-            return view('movies.popular', ['movies' => $popularSeries, 'title' => 'Les séries <span class="highlight">populaires</span>', 'type' => 'popularSerie']);
+            return view('movies.popular', ['movies' => $movies, 'series' => $series, 'title' => 'Résultats de la recherche pour : <span class="highlight">' . $searchName . '</span>', 'subtitle'=> 'correspondants à la recherche', 'type' => 'search']);
         } else {
-            return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
+            return back()->with('error', 'Recherche invalide');
         }
     }
 
@@ -242,20 +229,6 @@ class MovieController extends Controller
     {
         $savedMovies = Title::all()->load('genres');
         return view('index', ['savedMovies' => $savedMovies]);
-    }
-
-    public function searchMovie(Request $request)
-    {
-        if ($request->has('search') && $request->input('search') !== '') {
-            $searchName = urlencode($request->input('search'));
-            $searchResults = $this->getCurlDatas('search/multi?query=' . $searchName . '&include_adult=false&language=fr-FR&page=1');
-            $searchResults->results = array_filter($searchResults->results, function ($item) {
-                return isset($item->media_type) && ($item->media_type === 'tv' || $item->media_type === 'movie');
-            });
-            return view('movies.popular', ['movies' => $searchResults, 'title' => 'Résultats de la recherche pour : <span class="highlight">' . $searchName . '</span>', 'type' => 'search']);
-        } else {
-            return back()->with('error', 'Recherche invalide');
-        }
     }
 
     public function getBestRated()

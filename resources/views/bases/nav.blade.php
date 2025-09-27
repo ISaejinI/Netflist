@@ -1,7 +1,6 @@
 <nav id="navHeader">
     <a href="{{ route('populartitles') }}">Populaires</a>
-    <a href="{{ route('bestratedmovies') }}">Les films les mieux notés</a>
-    <a href="{{ route('popularseries') }}">Séries populaires</a>
+    <a href="{{ route('bestratedmovies') }}">Mieux notés</a>
     
     @auth
         <a href="{{ route('savedmovies') }}">Films sauvegardés</a>
