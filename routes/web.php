@@ -1,27 +1,24 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MovieController;
-use App\Http\Controllers\SinglemovieController;
+use App\Http\Controllers\APITitlesController;
+use App\Http\Controllers\SavedTitlesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'getHomeDatas'])->name('home');
-
 //Routes qui font appel à l'API
-Route::controller(MovieController::class)->group(function() {
+Route::controller(APITitlesController::class)->group(function() {
     Route::get('/popular/{page?}', 'getPopularTitles')->name('populartitles');
     Route::get('/bestRatedMovies', 'getBestRated')->name('bestratedmovies');
     Route::post('/storeMovie', 'storeMovie')->name('storemovie');
-    Route::post('/markAsWatched', 'markAsWatched')->name('watched');
-    Route::get('/search', 'searchTitle')->name('search');
-    // Series
     Route::post('/storeSerie', 'storeSerie')->name('storeserie');
+    Route::get('/search', 'searchTitle')->name('search');
 });
 
 //Routes qui font appel à la BDD
-Route::controller(SinglemovieController::class)->group(function() {
+Route::controller(SavedTitlesController::class)->group(function() {
+    Route::get('/', 'getHomeDatas')->name('home');
     Route::get('/movie/{id}', 'movieDetail')->name('moviedetail');
+    Route::post('/markAsWatched', 'markAsWatched')->name('watched');
     Route::post('/markEpisodeAsWatched', 'markEpisodeAsWatched')->name('watchepisode');
     Route::delete('/deleteTitle', 'deleteTitle')->name('deletetitle');
 });

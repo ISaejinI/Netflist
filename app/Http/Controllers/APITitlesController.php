@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class MovieController extends Controller
+class APITitlesController extends Controller
 {
     public function getCurlDatas($url)
     {
@@ -165,30 +165,6 @@ class MovieController extends Controller
             }
         }
         return redirect()->route('login')->with('error', 'Il faut être connecté pour ajouter un film');
-    }
-
-    public function markAsWatched(Request $request)
-    {
-        if (Auth::user()) {
-            if ($request->has('movie_id') && $request->input('movie_id') > 0) {
-                $movie = $request->user()->titles()->where('titles.id', $request->input('movie_id'))->first();
-                if ($movie) {
-                    $movie->pivot->watched = !$movie->pivot->watched;
-                    $movie->pivot->save();
-                    return back()->with('success', 'Film marqué comme vu');
-                } else {
-                    return back()->with('error', 'Film non trouvé');
-                }
-            }
-            return back()->with('error', 'Film invalide');
-        }
-        return redirect()->route('login')->with('error', 'Il faut être connecté pour marquer un film comme vu');
-    }
-
-    public function index()
-    {
-        $savedMovies = Title::all()->load('genres');
-        return view('index', ['savedMovies' => $savedMovies]);
     }
 
     public function getBestRated()
