@@ -13,20 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
-    public function getPopularMovies(Request $request)
-    {
-        $currentPage = $request->route('page', 1);
-        if (is_numeric($currentPage) && $currentPage > 0) {
-            $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
-            if (!isset($popularMovies->results) || count($popularMovies->results) === 0) {
-                return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
-            }
-            return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films <span class="highlight">populaires</span>', 'type' => 'popularMovie']);
-        } else {
-            return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
-        }
-    }
-
     public function getCurlDatas($url)
     {
         $curl = curl_init();
@@ -53,6 +39,53 @@ class MovieController extends Controller
             echo "cURL Error #:" . $err;
         } else {
             return json_decode($response);
+        }
+    }
+
+
+    public function getPopularTitles(Request $request)
+    {
+        $currentPage = $request->route('page', 1);
+        if (is_numeric($currentPage) && $currentPage > 0) {
+            $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
+            $popularSeries = $this->getCurlDatas("tv/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
+            if ((!isset($popularMovies->results) || count($popularMovies->results) === 0) && (!isset($popularSeries->results) || count($popularSeries->results) === 0)) {
+                return back()->with('error', 'Page invalide');
+            }
+            return view('movies.popular', ['movies' => $popularMovies, 'series' => $popularSeries, 'title' => 'Les films et séries <span class="highlight">populaires</span>', 'subtitle'=> 'les plus populaires du moment', 'type' => 'popular', 'currentPage' => $currentPage]);
+        } else {
+            return back()->with('error', 'Page invalide');
+        }
+    }
+
+
+
+
+    public function getPopularMovies(Request $request)
+    {
+        $currentPage = $request->route('page', 1);
+        if (is_numeric($currentPage) && $currentPage > 0) {
+            $popularMovies = $this->getCurlDatas("movie/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
+            if (!isset($popularMovies->results) || count($popularMovies->results) === 0) {
+                return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
+            }
+            return view('movies.popular', ['movies' => $popularMovies, 'title' => 'Les films <span class="highlight">populaires</span>', 'type' => 'popularMovie']);
+        } else {
+            return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
+        }
+    }
+
+    public function getPopularTV(Request $request)
+    {
+        $currentPage = $request->route('page', 1);
+        if (is_numeric($currentPage) && $currentPage > 0) {
+            $popularSeries = $this->getCurlDatas("tv/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
+            if (!isset($popularSeries->results) || count($popularSeries->results) === 0) {
+                return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
+            }
+            return view('movies.popular', ['movies' => $popularSeries, 'title' => 'Les séries <span class="highlight">populaires</span>', 'type' => 'popularSerie']);
+        } else {
+            return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
         }
     }
 
@@ -238,27 +271,12 @@ class MovieController extends Controller
         return view('movies.bestRated', ['movies' => $bestRatedMovies, 'title' => 'Les films les mieux notés', 'type' => 'bestRated']);
     }
 
-    public function getPopularTV(Request $request)
-    {
-        $currentPage = $request->route('page', 1);
-        if (is_numeric($currentPage) && $currentPage > 0) {
-            $popularSeries = $this->getCurlDatas("tv/popular?language=fr-FR&include_adult=false&page=" . $currentPage);
-            if (!isset($popularSeries->results) || count($popularSeries->results) === 0) {
-                return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
-            }
-            return view('movies.popular', ['movies' => $popularSeries, 'title' => 'Les séries <span class="highlight">populaires</span>', 'type' => 'popularSerie']);
-        } else {
-            return redirect()->route('popularmovies', ['page' => 1])->with('error', 'Page invalide');
-        }
-    }
-
     public function storeSerie(Request $request)
     {
         if (Auth::check()) {
             if ($request->has('serie_id') && $request->input('serie_id') > 0) {
                 $serie = $this->getCurlDatas('tv/' . $request->input('serie_id') . '?language=fr-FR');
                 $cast = $this->getCurlDatas('tv/' . $request->input('serie_id') . '/credits?language=fr-FR');
-                // dd($serie);
 
                 $posterUrl = 'https://image.tmdb.org/t/p/w500' . $serie->poster_path;
                 $contents = file_get_contents($posterUrl);
@@ -296,10 +314,14 @@ class MovieController extends Controller
                 if (isset($actors)) {
                     $actorSliced = array_slice($actors, 0, 5);
                     foreach ($actorSliced as $actor) {
-                        $actorProfileUrl = 'https://image.tmdb.org/t/p/w500' . $actor->profile_path;
-                        $contents = file_get_contents($actorProfileUrl);
-                        $actorProfileName = $actor->id . 'profile.jpg';
-                        Storage::disk('public')->put('actors/' . $actorProfileName, $contents);
+                        if ($actor->profile_path != "") {
+                            $actorProfileUrl = 'https://image.tmdb.org/t/p/w185' . $actor->profile_path;
+                            $contents = file_get_contents($actorProfileUrl);
+                            $actorProfileName = $actor->id . 'profile.jpg';
+                            Storage::disk('public')->put('actors/' . $actorProfileName, $contents);
+                        } else {
+                            $actorProfileName = 'placeholder.jpg';
+                        }
                         $actor_profile_path = 'actors/' . $actorProfileName;
                         $newActor = Actor::firstOrCreate(
                             ['id_actor_tmdb' => $actor->id],

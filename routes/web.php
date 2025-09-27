@@ -10,7 +10,7 @@ Route::get('/', [HomeController::class, 'getHomeDatas'])->name('home');
 
 //Routes qui font appel à l'API
 Route::controller(MovieController::class)->group(function() {
-    Route::get('/popularMovies/{page?}', 'getPopularMovies')->name('popularmovies');
+    Route::get('/popular/{page?}', 'getPopularTitles')->name('populartitles');
     Route::get('/bestRatedMovies', 'getBestRated')->name('bestratedmovies');
     Route::post('/storeMovie', 'storeMovie')->name('storemovie');
     Route::post('/markAsWatched', 'markAsWatched')->name('watched');

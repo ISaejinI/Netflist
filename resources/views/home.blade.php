@@ -7,7 +7,7 @@
             <h1 class="hero-title">Découvrez votre prochaine <span class="highlight">obsession</span></h1>
             <p class="hero-subtitle">Parcourez une collection infinie de films et séries, personnalisée selon vos goûts</p>
             <div class="hero-buttons">
-                <a href="{{ route('popularmovies') }}" class="btn-primary">
+                <a href="{{ route('populartitles') }}" class="btn-primary">
                     <i class='bx bx-play'></i>
                     Explorer maintenant
                 </a>
@@ -51,7 +51,7 @@
                         </div>
                         <h3>Votre watchlist est vide</h3>
                         <p>Commencez à ajouter des films à votre liste pour les retrouver ici</p>
-                        <a href="{{ route('popularmovies') }}" class="btn-primary"> <i class='bx bx-plus'></i> Découvrir des films
+                        <a href="{{ route('populartitles') }}" class="btn-primary"> <i class='bx bx-plus'></i> Découvrir des films
                         </a>
                     </div>
                 @else
