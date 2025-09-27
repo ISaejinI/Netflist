@@ -185,50 +185,6 @@ class MovieController extends Controller
         return redirect()->route('login')->with('error', 'Il faut être connecté pour marquer un film comme vu');
     }
 
-    public function deleteMovie(Request $request)
-    {
-        if (Auth::check()) {
-            if ($request->has('movie_id') && $request->input('movie_id') > 0) {
-                $user = Auth::user();
-                $movie = $user->titles()->where('titles.id', $request->input('movie_id'))->first();
-                // dd($movie);
-                if ($movie) {
-                    $user->titles()->detach($movie->id);
-
-                    $usersCount = $movie->users()->count();
-                    if ($usersCount === 0) {
-                        if ($movie->poster_path && Storage::disk('public')->exists($movie->poster_path)) {
-                            Storage::disk('public')->delete($movie->poster_path);
-                        }
-
-                        foreach ($movie->genres as $genre) {
-                            $movie->genres()->detach($genre->id);
-                            if ($genre->titles()->count() === 0) {
-                                $genre->delete();
-                            }
-                        }
-
-                        $movie->actors()->detach();
-                        $movie->directors()->detach();
-
-                        if ($movie->is_movie == false) {
-                            $movie->episodes()->delete();
-                        }
-
-                        $movie->delete();
-                    }
-                    return back()->with('success', 'Film supprimé');
-                } else {
-                    return back()->with('error', 'Film non trouvé');
-                }
-            } else {
-                return back()->with('error', 'Film non trouvé');
-            }
-        } else {
-            return back()->with('error', 'Il faut être connecté pour supprimer un film');
-        }
-    }
-
     public function index()
     {
         $savedMovies = Title::all()->load('genres');

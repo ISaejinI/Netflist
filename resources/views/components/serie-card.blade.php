@@ -5,9 +5,6 @@
         @if ($watched == 1)
             <span class="seenBox"><i class='bxr bx-eye-alt'></i></span>
         @endif
-        @php
-            // dd($episodes);
-        @endphp
 
         <div class="movie-overlay">
             <div class="movie-actions">
@@ -15,6 +12,14 @@
                     <a href="{{ route('moviedetail', $id) }}" class="action-btn primary" title="Voir le film">
                         <i class='bx bx-play'></i>
                     </a>
+                    <form action="{{ route('deletetitle') }}" method="post" class="action-form">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="title_id" value="{{ $id }}">
+                        <button type="submit" class="action-btn secondary" title="Supprimer de la liste">
+                            <i class='bx bx-trash'></i>
+                        </button>
+                    </form>
                 @elseif ($type == 'popular')
                     @if ($isMovie === true)
                         <form action="{{ route('storemovie') }}" method="POST" class="action-form">
@@ -65,7 +70,7 @@
         <div>
 
             @if (isset($nextEpisode))
-                @if ($isFirst!=1)
+                @if ($isFirst != 1)
                     <form action="{{ route('watchepisode') }}" method="POST" class="action-form">
                         @csrf
                         <input type="hidden" name="episode_id" value="{{ $previousEpisode->id }}">

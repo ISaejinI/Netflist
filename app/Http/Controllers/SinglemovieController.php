@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Title;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SinglemovieController extends Controller
 {
@@ -44,6 +45,49 @@ class SinglemovieController extends Controller
             }
         } else {
             return back()->with('error', 'Connectez-vous pour marquer vos épisodes');
+        }
+    }
+
+    public function deleteTitle(Request $request)
+    {
+        if (Auth::check()) {
+            if ($request->has('title_id') && $request->input('title_id') > 0) {
+                $user = Auth::user();
+                $movie = $user->titles()->where('titles.id', $request->input('title_id'))->first();
+                if ($movie) {
+                    $user->titles()->detach($movie->id);
+
+                    $usersCount = $movie->users()->count();
+                    if ($usersCount === 0) {
+                        if ($movie->poster_path && Storage::disk('public')->exists($movie->poster_path)) {
+                            Storage::disk('public')->delete($movie->poster_path);
+                        }
+
+                        foreach ($movie->genres as $genre) {
+                            $movie->genres()->detach($genre->id);
+                            if ($genre->titles()->count() === 0) {
+                                $genre->delete();
+                            }
+                        }
+
+                        $movie->actors()->detach();
+                        $movie->directors()->detach();
+
+                        if ($movie->is_movie == false) {
+                            $movie->episodes()->delete();
+                        }
+
+                        $movie->delete();
+                    }
+                    return back()->with('success', 'Titre supprimé');
+                } else {
+                    return back()->with('error', 'Titre non trouvé');
+                }
+            } else {
+                return back()->with('error', 'Titre non trouvé');
+            }
+        } else {
+            return back()->with('error', 'Il faut être connecté pour supprimer un titre');
         }
     }
 }

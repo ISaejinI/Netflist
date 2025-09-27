@@ -21,6 +21,14 @@
                             <i class='{{ $watched==0?"bx bx-check":"bxr bx-eye-slash" }}'></i>
                         </button>
                     </form>
+                    <form action="{{ route('deletetitle') }}" method="post" class="action-form">
+                        @csrf
+                        @method('delete')
+                        <input type="hidden" name="title_id" value="{{ $id }}">
+                        <button type="submit" class="action-btn secondary" title="Supprimer de la liste">
+                            <i class='bx bx-trash'></i>
+                        </button>
+                    </form>
                 @elseif ($type == 'popular')
                     @php
                         if ($isMovie===true) {
