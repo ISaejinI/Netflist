@@ -484,6 +484,142 @@ header {
   margin-top: 32px;
 }
 
+/* ------CONTENT TOGGLE BUTTONS------ */
+.content-toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0 3rem;
+  gap: 1rem;
+}
+
+.toggle-buttons {
+  display: flex;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-l);
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--blanc-clair);
+  border: none;
+  border-radius: var(--radius-s);
+  font-family: var(--font-fam);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--duration) var(--a-type);
+  position: relative;
+}
+
+.toggle-btn:hover {
+  color: var(--blanc);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.toggle-btn.active {
+  background: var(--rouge);
+  color: var(--blanc);
+  box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+}
+
+.toggle-btn.active:hover {
+  background: #f40612;
+  transform: translateY(-1px);
+}
+
+.toggle-btn i {
+  font-size: 1.2rem;
+}
+
+/* ------CONTENT SECTIONS------ */
+.content-section {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.content-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--blanc);
+  margin: 0;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--blanc-clair);
+  margin: 0;
+}
+
+/* ------RESPONSIVE TOGGLE------ */
+@media (max-width: 768px) {
+  .content-toggle-container {
+    margin: 1.5rem 0 2rem;
+  }
+  
+  .toggle-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .toggle-btn i {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .toggle-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .toggle-btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
 .movie-card {
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-l);
