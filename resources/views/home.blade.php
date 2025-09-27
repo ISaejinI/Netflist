@@ -114,7 +114,20 @@
                                             ->where('pivot.watched', false)
                                             ->sortBy(['season', 'episode_number'])
                                             ->first();
-                                        // dd($nextEpisode);
+                                        
+                                        // Récupère le dernier épisode vu (le plus avancé dans la série) donc il peut se trouver après le nextEpisode
+                                        $previousEpisode = Auth::user()->episodes
+                                            ->where('title_id', $serie->id)
+                                            ->where('pivot.watched', true)
+                                            ->sortByDesc(['season', 'episode_number'])
+                                            ->first();
+
+                                        $firstEpisode = Auth::user()->episodes
+                                            ->where('title_id', $serie->id)
+                                            ->sortBy(['season', 'episode_number'])
+                                            ->first();
+                                        
+                                        $isFirst = $firstEpisode==$nextEpisode?true:false;
                                     @endphp
                                     <x-serie-card 
                                         type="home"
@@ -126,6 +139,8 @@
                                         rating="{{ $serie->rating }}"
                                         :overview="$serie->overview"
                                         :nextEpisode="$nextEpisode"
+                                        :previousEpisode="$previousEpisode"
+                                        :isFirst="$isFirst"
                                         watched="{{ $serie->pivot->watched }}"
                                     />
                                 @endforeach

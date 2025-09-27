@@ -21,6 +21,8 @@ class SerieCard extends Component
         public $rating,
         public string $overview,
         public $nextEpisode,
+        public $previousEpisode,
+        public bool $isFirst,
         public bool $watched = false,
     )
     {

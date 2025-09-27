@@ -65,11 +65,10 @@
         <div>
 
             @if (isset($nextEpisode))
-                @if (!$nextEpisode->season == 1 && $nextEpisode->episode_number == 1)
-                    <form action="" method="POST" class="action-form">
+                @if ($isFirst!=1)
+                    <form action="{{ route('watchepisode') }}" method="POST" class="action-form">
                         @csrf
-                        <input type="hidden" name="serie_id" value="{{ $id }}">
-                        <input type="hidden" name="episode_id" value="{{ $nextEpisode->id }}">
+                        <input type="hidden" name="episode_id" value="{{ $previousEpisode->id }}">
                         <button type="submit" class="action-btn secondary" title="Épisode précédent">
                             <i class='bx bx-minus'></i>
                         </button>
